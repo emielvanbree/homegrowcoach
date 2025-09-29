@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<link rel="icon" type="image/png" href="kweekmaatjelogo.png">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ThuisKweekCoach</title>
+<style>
+/* ====== THEMA ====== */
+:root { --bg:#F8FBF4; --fg:#3B4A3F; --main:#4CAF50; --muted:#6C7A70; --card:#FFFFFF; --line:#DCE5D8; --pill:#E8F5E9; --cta:#FF9800; --cta-hover:#FB8C00; --danger:#F44336; --radius:18px; --seg-growth:#81C784; --seg-fruiting:#FFB74D; --seg-harvest:#4CAF50; }
+.dark { --bg:#1F2421; --fg:#E0E5E2; --main:#81C784; --muted:#889690; --card:#2A312C; --line:#3A453E; --pill:#2C392D; --cta:#FFB74D; --cta-hover:#FFA726; --danger:#EF5350; color:var(--main); }
+
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
+h1{margin:0;color:var(--fg);font-size:24px;display:flex;align-items:center;gap:8px}
+.app-logo{width:36px;height:36px;object-fit:contain;display:inline-block}
+.container{max-width:1080px;margin:0 auto;padding:12px 16px}
+/* Header */
+header{position:sticky;top:0;z-index:10;background:rgba(248, 251, 244, .9);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--line)}
+.dark header{background:rgba(31, 36, 33, .9);border-bottom-color:var(--line)}
+.header-content{display:flex;gap:16px;align-items:center}
+.header-actions{display:flex;gap:8px;align-items:center;margin-left:auto;position:relative}
+#btnMenuToggle{display:none}
+@media (max-width:768px){
+#btnMenuToggle{display:flex}
+#menuContent{display:none;position:absolute;top:calc(100% + 8px);right:0;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:20;padding:12px;flex-direction:column;align-items:flex-end;gap:14px;width:260px}
+#menuContent.is-open{display:flex}
+}
+@media (min-width:769px){#menuContent{display:contents}}
+/* Buttons/inputs */
+button,.btn,.tab.active{appearance:none;border:1px solid var(--line);padding:8px 12px;border-radius:16px;box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;font-size:14px;color:var(--fg);background:#fff}
+.btn-icon{background:transparent;border:none;padding:4px;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.btn-icon:hover{background:var(--pill)}
+.btn-icon svg, .btn-icon .material-icons{width:20px;height:20px;fill:var(--main);color:var(--main)}
+.dark button,.dark .btn,.dark .tab{background:var(--card);border-color:var(--line);color:var(--main)}
+.tab{background:transparent;border-color:transparent}
+.tab.active{background:#fff;border-color:var(--line);box-shadow:0 1px 0 rgba(0,0,0,.04);color:var(--fg);font-weight:600}
+.dark .tab.active{background:#3a453e;border-color:#556058;color:var(--fg)}
+#btnAdd,#btnAdd2{background:var(--cta);border-color:var(--cta);color:#fff;font-weight:600}
+#btnAdd:hover,#btnAdd2:hover{background:var(--cta-hover);border-color:var(--cta-hover)}
+input[type="date"],input[type="number"],input[type="text"],textarea,select{border:1px solid var(--line);border-radius:10px;padding:6px 10px;color:var(--fg);background:#fff;width:100%}
+.dark input[type="date"],.dark input[type="number"],.dark input[type="text"],.dark textarea,.dark select{background:#333;color:var(--fg);border-color:#555}
+/* Layout/cards */
+main.container{padding:20px 16px 40px}
+.grid{display:grid;grid-template-columns:1fr;gap:20px}
+@media (min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 2px 4px rgba(0,0,0,.05);overflow:hidden}
+.card-h{padding:14px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.btn-collapse{appearance:none;background:transparent;border:none;padding:4px;width:32px;height:32px;cursor:pointer;border-radius:50%;margin-left:auto;display:flex;align-items:center;justify-content:center}
+.btn-collapse:hover{background:var(--pill)}
+.btn-collapse svg{width:24px;height:24px;fill:var(--muted);transition:transform .3s ease}
+.card.is-collapsed .btn-collapse svg{transform:rotate(-180deg)}
+.card.is-collapsed .plant-type-row,.card.is-collapsed .row-info,.card.is-collapsed .card-b{display:none}
+.row-name{display:flex;gap:8px;width:100%;align-items:center}
+.row-name input{flex:1;border:none;outline:none;font-size:16px;font-weight:600;background:transparent;color:var(--fg);min-width:150px}
+.plant-type-row{display:flex;gap:8px;align-items:center;width:100%}
+.row-info{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:13px;color:var(--muted);width:100%;justify-content:space-between}
+.row-info label{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.row-info input[type="date"]{width:auto;min-width:135px}
+.row-info .action-buttons{display:flex;gap:8px;flex-shrink:0}
+.section-title{font-weight:600;margin:16px 0 8px;color:var(--fg)}
+.hint{font-size:12px;color:var(--muted)}
+.pill{font-size:12px;background:var(--pill);border:1px solid var(--line);color:var(--main);padding:2px 8px;border-radius:999px;display:flex;align-items:center;gap:4px;}
+.tabs{display:flex;gap:6px;background:var(--pill);border-radius:999px;padding:4px;margin-top:8px;flex-basis:100%}
+.card-b{border-top:1px solid var(--line);padding:14px}
+.uploader{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:var(--pill);border:1px solid var(--line);border-radius:14px}
+figure{margin:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+figure img{display:block;width:100%;height:auto;max-height:300px;object-fit:cover}
+figcaption{padding:10px;display:flex;justify-content:space-between;gap:10px;font-size:14px;flex-wrap:wrap}
+.muted{color:var(--muted)}
+.danger{color:var(--danger);border-color:var(--danger)!important}
+.danger:hover{background:rgba(204,0,0,.1)!important}
+.empty{border:2px dashed var(--line);border-radius:var(--radius);padding:32px;text-align:center;background:var(--card)}
+.archived{opacity:.6}
+.actions-bar{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:8px;border-bottom:1px dashed var(--line);padding-bottom:8px;min-height:40px}
+.action-item{display:flex;align-items:center;justify-content:space-between;width:100%;background:#fff;border:2px solid var(--cta);color:var(--cta);font-weight:600;padding:6px 12px;border-radius:12px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08);gap:8px}
+.action-item .left{display:flex;align-items:center;gap:10px}
+.action-item .action-date{font-size:11px;font-weight:400;color:var(--muted);padding-left:10px}
+.action-item.feed{border-color:#FF9800;color:#FF9800}
+.action-item.water{border-color:#03A9F4;color:#03A9F4}
+.action-item.harvest{border-color:var(--main);background:var(--main);color:#fff}
+.info-btn{margin-left:4px;font-weight:700;border:1px solid var(--line);border-radius:999px;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--fg)}
+.dark .info-btn{background:var(--card)}
+/* Progress */
+.progress-wrapper{width:100%;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.progress-date-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);padding:0 2px 4px}
+.progress-bar-container{position:relative;width:100%;margin-bottom:6px}
+.progress-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;border:1px solid var(--line);background:#fff}
+.progress-segment{height:100%}
+.seg-growth{background:var(--seg-growth)}.seg-fruiting{background:var(--seg-fruiting)}.seg-harvest{background:var(--seg-harvest)}
+.progress-marker{position:absolute;top:-6px;width:3px;height:24px;background:var(--danger);border-radius:2px;transform:translateX(-1.5px);z-index:5;box-shadow:0 0 5px var(--danger)}
+.progress-marker-label{position:absolute;top:-26px;font-size:10px;font-weight:bold;background:var(--danger);color:#fff;padding:2px 4px;border-radius:4px;white-space:nowrap}
+.progress-phase-labels-container{display:flex;font-size:11px;padding:0;color:var(--main);margin-top:2px}
+.progress-phase-label{text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 3px;font-weight:500}
+/* Modals */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px)}
+.modal-content{background:var(--card);padding:24px;border-radius:var(--radius);max-width:640px;width:90%;position:relative;box-shadow:0 5px 15px rgba(0,0,0,.3);border:1px solid var(--line)}
+.modal-close{position:absolute;top:10px;right:10px;background:transparent;border:none;font-size:24px;line-height:1;cursor:pointer;color:var(--muted)}
+/* Misc */
+.btn-whatsapp{display:inline-flex;align-items:center;gap:10px;background-color:#25D366;color:#fff!important;padding:10px 16px;border-radius:16px;text-decoration:none;font-weight:bold;border:none;cursor:pointer}
+.btn-whatsapp:hover{background-color:#1DA851}
+.btn-whatsapp svg{width:20px;height:20px;fill:#fff}
+.toggle-container{display:flex;align-items:center;gap:8px;font-size:14px}
+.toggle-switch{position:relative;display:inline-block;width:44px;height:24px}
+.toggle-switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;transition:.3s;border-radius:24px}
+.slider:before{position:absolute;content:"";height:16px;width:16px;left:4px;bottom:4px;background:#fff;transition:.3s;border-radius:50%}
+.toggle-switch input:checked + .slider{background:var(--cta)}
+.toggle-switch input:checked + .slider:before{transform:translateX(20px)}
+.dark .slider{background:#555}
+.dark .toggle-switch input:checked + .slider{background:var(--cta-hover)}
+/* Care Info Tab */
+.care-info{display:flex;flex-direction:column;gap:12px;font-size:14px;}
+.care-info h4{margin:0;font-size:15px;color:var(--fg);border-bottom:1px solid var(--line);padding-bottom:4px;}
+.care-info p{margin:0;}
+</style>
+</head>
+<body>
+<header>
+<div class="container header-content">
+<h1>
+    <img class="app-logo" src="kweekmaatjelogo.png" alt="logo"/>
+    <span id="appTitleText">ThuisKweekCoach</span>
+</h1>
+<div class="header-actions">
+<button id="btnAdd" data-i18n="newPlant">+ Nieuw Gewas</button>
+<div id="menuContent">
+<select id="langSelect" style="border-radius:16px;font-size:14px;padding:8px 10px;width:auto">
+<option value="nl">Nederlands</option>
+<option value="en">English</option>
+<option value="de">Deutsch</option>
+<option value="fr">Français</option>
+<option value="es">Español</option>
+</select>
+<div class="toggle-container">
+<label id="darkModeLabel">Dark Mode</label>
+<label class="toggle-switch">
+<input type="checkbox" id="darkModeToggle"/><span class="slider"></span>
+</label>
+</div>
+<label class="row hint" style="gap:6px;margin:0;align-items:center">
+<input id="chkArchived" type="checkbox"/>
+<span data-i18n="showArchived">Toon gearchiveerden</span>
+</label>
+<button id="btnReset" class="danger" data-i18n="resetData">Reset data</button>
+<button id="btnHeaderShare" class="btn-icon" title="Delen" aria-label="Delen">
+<span class="material-icons">share</span></button>
+<button id="btnHelp" class="btn-icon" aria-label="Help & Info">
+<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+</button>
+</div>
+<button id="btnMenuToggle" class="btn-icon" aria-label="Open menu">
+<svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="container">
+<div id="empty" class="empty" style="display:none">
+<h2 style="margin:0;font-size:18px;color:var(--fg)" data-i18n="emptyTitle">Nog geen gewassen</h2>
+<p class="muted" data-i18n="emptyText">Voeg je eerste gewas toe en begin met het bijhouden van je kweek!</p>
+<button id="btnAdd2" data-i18n="newPlant">+ Nieuw Gewas</button>
+</div>
+<div id="grid" class="grid"></div>
+<section id="archivedSection" style="display:none;margin-top:24px">
+<div class="section-title" data-i18n="archivedTitle">Gearchiveerd</div>
+<div id="archivedGrid" class="grid archived"></div>
+</section>
+</main>
+<div id="helpModal" class="modal-overlay" style="display:none">
+<div class="modal-content">
+<button class="modal-close" aria-label="Sluiten">&times;</button>
+<h2 data-i18n="helpTitle">Hulp & Informatie</h2>
+<p data-i18n="helpIntro">Met de ThuisKweekCoach houd je eenvoudig de voortgang van je eigen groenten en fruit bij. Voeg een gewas toe, volg de visuele tijdlijn, krijg herinneringen voor verzorging en maak foto's om een visueel logboek van je oogst te creëren.</p>
+<p data-i18n="helpText">Je privacy is gegarandeerd. Alle gegevens (namen, datums, notities, foto's) worden uitsluitend op je eigen apparaat opgeslagen in de lokale opslag van je browser. Er wordt geen data naar een server verzonden.</p>
+<h3 data-i18n="disclaimerTitle">Disclaimer</h3>
+<p data-i18n="disclaimerText">De adviezen in deze app zijn gebaseerd op algemene richtlijnen. Resultaten kunnen variëren afhankelijk van je specifieke kweekomstandigheden. Vertrouw altijd op je eigen waarnemingen en pas de verzorging aan waar nodig.</p>
+</div>
+</div>
+<div id="shareModal" class="modal-overlay" style="display:none">
+<div class="modal-content">
+<button class="modal-close" aria-label="Sluiten">&times;</button>
+<h2 data-i18n="shareTitle">Rapport delen</h2>
+<p data-i18n="shareExplain">Deel je kweekrapport en laat je vrienden meegenieten van je oogst!</p>
+<div class="report-actions" style="display:flex; gap: 12px; margin-top: 16px;">
+<button id="btnShareNow" class="btn" data-i18n="shareNow">Nu Delen</button>
+<button class="btn" data-close-modal data-i18n="close">Sluiten</button>
+</div>
+<p class="hint" id="shareFallbackMsg" style="display:none; margin-top: 12px;" data-i18n="shareFallback">Delen wordt niet ondersteund door je browser. De afbeelding wordt in plaats daarvan gedownload.</p>
+</div>
+</div>
+<script>
+/* ===== i18n ===== */
+const TRANSLATIONS = {
+    nl: {
+        appName: "ThuisKweekCoach",
+        newPlant: "+ Nieuw Gewas",
+        showArchived: "Toon gearchiveerden",
+        emptyTitle: "Nog geen gewassen",
+        emptyText: "Voeg je eerste gewas toe en begin met het bijhouden van je kweek!",
+        archivedTitle: "Gearchiveerd",
+        plant: "Gewas",
+        archiveCycle: "Archiveer cyclus",
+        unarchive: "Herstellen",
+        delete: "Verwijderen",
+        plantedOn: "Geplant op:",
+        age: "Leeftijd:",
+        weeks: "wk",
+        days: "d",
+        timeline: "Tijdlijn",
+        care: "Verzorging",
+        notes: "Notities",
+        date: "Datum:",
+        noteOptional: "Opmerking (optioneel)",
+        uploadPhoto: "Upload foto",
+        noPhotos: "Nog geen foto's. Voeg een foto van de start hierboven toe.",
+        remove: "Verwijder",
+        checkWater: "💧 Controleer water",
+        checkFeed: "🥦 Controleer voeding",
+        harvest: "🪴 OOGSTEN",
+        week: "Week",
+        notesPlaceholder: "Notities over water geven, voeding, pH, training, etc.",
+        alertPhoto: "Kies eerst een foto.",
+        alertDelete: "Weet je het zeker? Dit kan niet ongedaan worden gemaakt.",
+        alertMax: "Maximaal 12 gewassen tegelijk ondersteund.",
+        darkMode: "Dark Mode",
+        growth: "Groei",
+        fruiting: "Vruchtvorming",
+        harvestReady: "Oogstklaar",
+        today: "Vandaag",
+        resetData: "Reset data",
+        confirmReset: "Weet je zeker dat je alle gegevens wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
+        disclaimerTitle: "Disclaimer",
+        disclaimerText: "De adviezen in deze app zijn gebaseerd op algemene richtlijnen. Resultaten kunnen variëren afhankelijk van je specifieke kweekomstandigheden. Vertrouw altijd op je eigen waarnemingen en pas de verzorging aan waar nodig.",
+        helpTitle: "Hulp & Informatie",
+        helpIntro: "Met de ThuisKweekCoach houd je eenvoudig de voortgang van je eigen groenten en fruit bij. Voeg een gewas toe, volg de visuele tijdlijn, krijg herinneringen voor verzorging en maak foto's om een visueel logboek van je oogst te creëren.",
+        helpText: "Je privacy is gegarandeerd. Alle gegevens (namen, datums, notities, foto's) worden uitsluitend op je eigen apparaat opgeslagen in de lokale opslag van je browser. Er wordt geen data naar een server verzonden.",
+        light: "Licht",
+        cycle: "Cyclus",
+        nutrition: "Voeding",
+        extraInfo: "Extra Info",
+        growthReportTitle: "Kweekrapport",
+        shareTitle: "Rapport delen",
+        shareExplain: "Deel je kweekrapport en laat je vrienden meegenieten van je oogst!",
+        shareNow: "Nu Delen",
+        close: "Sluiten",
+        shareFallback: "Delen wordt niet ondersteund door je browser. De afbeelding wordt in plaats daarvan gedownload.",
+        reportIntro: "Kijk eens wat een mooie oogst ik aan het kweken ben! 🌱🥕"
+    },
+    en: {
+        appName: "HomeGrowCoach",
+        newPlant: "+ New Crop",
+        showArchived: "Show Archived",
+        emptyTitle: "No Crops Yet",
+        emptyText: "Add your first crop and start tracking your grow!",
+        archivedTitle: "Archived",
+        plant: "Crop",
+        archiveCycle: "Archive Cycle",
+        unarchive: "Unarchive",
+        delete: "Delete",
+        plantedOn: "Planted on:",
+        age: "Age:",
+        weeks: "wks",
+        days: "d",
+        timeline: "Timeline",
+        care: "Care",
+        notes: "Notes",
+        date: "Date:",
+        noteOptional: "Note (optional)",
+        uploadPhoto: "Upload Photo",
+        noPhotos: "No photos yet. Add your first photo above.",
+        remove: "Remove",
+        checkWater: "💧 Check Water",
+        checkFeed: "🥦 Check Nutrition",
+        harvest: "🪴 HARVEST",
+        week: "Week",
+        notesPlaceholder: "Notes on watering, feeding, pH, training, etc.",
+        alertPhoto: "Please select a photo first.",
+        alertDelete: "Are you sure? This cannot be undone.",
+        alertMax: "Maximum of 12 active crops supported.",
+        darkMode: "Dark Mode",
+        growth: "Growth",
+        fruiting: "Fruiting",
+        harvestReady: "Harvest Ready",
+        today: "Today",
+        resetData: "Reset data",
+        confirmReset: "Are you sure you want to delete all data? This cannot be undone.",
+        disclaimerTitle: "Disclaimer",
+        disclaimerText: "The advice in this app is based on general guidelines. Results may vary depending on your specific growing conditions. Always trust your own observations and adjust care as needed.",
+        helpTitle: "Help & Information",
+        helpIntro: "With the HomeGrowCoach, you can easily track the progress of your own fruits and vegetables. Add a crop, follow the visual timeline, get care reminders, and take photos to create a visual log of your harvest.",
+        helpText: "Your privacy is guaranteed. All data (names, dates, notes, photos) is stored exclusively on your own device in your browser's local storage. No data is sent to any server.",
+        light: "Light",
+        cycle: "Cycle",
+        nutrition: "Nutrition",
+        extraInfo: "Extra Info",
+        growthReportTitle: "Grow Report",
+        shareTitle: "Share Report",
+        shareExplain: "Share your grow report and let your friends enjoy your harvest!",
+        shareNow: "Share Now",
+        close: "Close",
+        shareFallback: "Sharing is not supported by your browser. The image will be downloaded instead.",
+        reportIntro: "Look at the beautiful harvest I'm growing! 🌱🥕"
+    },
+    de: {
+        appName: "HeimAnbauCoach",
+        newPlant: "+ Neue Pflanze",
+        showArchived: "Archivierte anzeigen",
+        emptyTitle: "Noch keine Pflanzen",
+        emptyText: "Füge deine erste Pflanze hinzu und verfolge deinen Anbau!",
+        archivedTitle: "Archiviert",
+        plant: "Pflanze",
+        archiveCycle: "Zyklus archivieren",
+        unarchive: "Wiederherstellen",
+        delete: "Löschen",
+        plantedOn: "Gepflanzt am:",
+        age: "Alter:",
+        weeks: "Wo",
+        days: "T",
+        timeline: "Zeitachse",
+        care: "Pflege",
+        notes: "Notizen",
+        date: "Datum:",
+        noteOptional: "Notiz (optional)",
+        uploadPhoto: "Foto hochladen",
+        noPhotos: "Noch keine Fotos. Füge oben ein Foto vom Start hinzu.",
+        remove: "Entfernen",
+        checkWater: "💧 Wasser prüfen",
+        checkFeed: "🥦 Nährstoffe prüfen",
+        harvest: "🪴 ERNTEN",
+        week: "Woche",
+        notesPlaceholder: "Notizen zu Bewässerung, Düngung, pH, Training, etc.",
+        alertPhoto: "Bitte wähle zuerst ein Foto.",
+        alertDelete: "Sicher? Dies kann nicht rückgängig gemacht werden.",
+        alertMax: "Maximal 12 aktive Pflanzen unterstützt.",
+        darkMode: "Dunkelmodus",
+        growth: "Wachstum",
+        fruiting: "Fruchtbildung",
+        harvestReady: "Erntebereit",
+        today: "Heute",
+        resetData: "Daten zurücksetzen",
+        confirmReset: "Sicher, dass du alle Daten löschen willst? Dies kann nicht rückgängig gemacht werden.",
+        disclaimerTitle: "Haftungsausschluss",
+        disclaimerText: "Die Ratschläge in dieser App basieren auf allgemeinen Richtlinien. Ergebnisse können je nach Anbaubedingungen variieren. Vertraue immer auf deine eigenen Beobachtungen.",
+        helpTitle: "Hilfe & Informationen",
+        helpIntro: "Mit dem HeimAnbauCoach kannst du den Fortschritt deines eigenen Obst und Gemüses leicht verfolgen. Füge eine Pflanze hinzu, folge der visuellen Zeitachse und mache Fotos, um ein visuelles Logbuch zu erstellen.",
+        helpText: "Deine Privatsphäre ist garantiert. Alle Daten werden lokal auf deinem Gerät gespeichert. Es werden keine Daten an einen Server gesendet.",
+        light: "Licht",
+        cycle: "Zyklus",
+        nutrition: "Nährstoffe",
+        extraInfo: "Extra-Info",
+        growthReportTitle: "Anbaubericht",
+        shareTitle: "Bericht teilen",
+        shareExplain: "Teile deinen Anbaubericht und lass deine Freunde an deiner Ernte teilhaben!",
+        shareNow: "Jetzt teilen",
+        close: "Schließen",
+        shareFallback: "Teilen wird von deinem Browser nicht unterstützt. Das Bild wird stattdessen heruntergeladen.",
+        reportIntro: "Schau mal, was für eine schöne Ernte ich anbaue! 🌱🥕"
+    },
+    fr: {
+        appName: "CoachPotagerMaison",
+        newPlant: "+ Nouvelle Culture",
+        showArchived: "Afficher les archives",
+        emptyTitle: "Aucune culture pour le moment",
+        emptyText: "Ajoutez votre première culture et commencez à suivre vos progrès !",
+        archivedTitle: "Archivé",
+        plant: "Culture",
+        archiveCycle: "Archiver le cycle",
+        unarchive: "Désarchiver",
+        delete: "Supprimer",
+        plantedOn: "Planté le:",
+        age: "Âge:",
+        weeks: "sem",
+        days: "j",
+        timeline: "Chronologie",
+        care: "Soins",
+        notes: "Notes",
+        date: "Date:",
+        noteOptional: "Note (optionnel)",
+        uploadPhoto: "Télécharger photo",
+        noPhotos: "Aucune photo pour l'instant. Ajoutez votre première photo ci-dessus.",
+        remove: "Retirer",
+        checkWater: "💧 Vérifier l'eau",
+        checkFeed: "🥦 Vérifier les nutriments",
+        harvest: "🪴 RÉCOLTER",
+        week: "Semaine",
+        notesPlaceholder: "Notes sur l'arrosage, l'alimentation, le pH, etc.",
+        alertPhoto: "Veuillez d'abord sélectionner une photo.",
+        alertDelete: "Êtes-vous sûr ? Cette action est irréversible.",
+        alertMax: "Maximum de 12 cultures actives supportées.",
+        darkMode: "Mode Sombre",
+        growth: "Croissance",
+        fruiting: "Fructification",
+        harvestReady: "Prêt à récolter",
+        today: "Aujourd'hui",
+        resetData: "Réinitialiser les données",
+        confirmReset: "Êtes-vous sûr de vouloir supprimer toutes les données ? Cette action est irréversible.",
+        disclaimerTitle: "Avis de non-responsabilité",
+        disclaimerText: "Les conseils de cette application sont basés sur des lignes directrices générales. Les résultats peuvent varier en fonction de vos conditions de culture. Fiez-vous toujours à vos propres observations.",
+        helpTitle: "Aide & Informations",
+        helpIntro: "Avec le CoachPotagerMaison, suivez facilement la progression de vos fruits et légumes. Ajoutez une culture, suivez la chronologie visuelle et prenez des photos pour créer un journal de bord visuel.",
+        helpText: "Votre vie privée est garantie. Toutes les données sont stockées localement sur votre appareil. Aucune donnée n'est envoyée à un serveur.",
+        light: "Lumière",
+        cycle: "Cycle",
+        nutrition: "Nutrition",
+        extraInfo: "Infos supplémentaires",
+        growthReportTitle: "Rapport de culture",
+        shareTitle: "Partager le rapport",
+        shareExplain: "Partagez votre rapport de culture et faites profiter vos amis de votre récolte !",
+        shareNow: "Partager maintenant",
+        close: "Fermer",
+        shareFallback: "Le partage n'est pas pris en charge par votre navigateur. L'image sera téléchargée à la place.",
+        reportIntro: "Regardez la belle récolte que je cultive ! 🌱🥕"
+    },
+    es: {
+        appName: "CoachHuertoEnCasa",
+        newPlant: "+ Nuevo Cultivo",
+        showArchived: "Mostrar archivados",
+        emptyTitle: "Aún no hay cultivos",
+        emptyText: "¡Añade tu primer cultivo y empieza a seguir tu progreso!",
+        archivedTitle: "Archivado",
+        plant: "Cultivo",
+        archiveCycle: "Archivar ciclo",
+        unarchive: "Desarchivar",
+        delete: "Eliminar",
+        plantedOn: "Plantado el:",
+        age: "Edad:",
+        weeks: "sem",
+        days: "d",
+        timeline: "Cronología",
+        care: "Cuidados",
+        notes: "Notas",
+        date: "Fecha:",
+        noteOptional: "Nota (opcional)",
+        uploadPhoto: "Subir foto",
+        noPhotos: "Aún no hay fotos. Añade tu primera foto arriba.",
+        remove: "Quitar",
+        checkWater: "💧 Revisar agua",
+        checkFeed: "🥦 Revisar nutrientes",
+        harvest: "🪴 COSECHAR",
+        week: "Semana",
+        notesPlaceholder: "Notas sobre riego, alimentación, pH, etc.",
+        alertPhoto: "Por favor, selecciona una foto primero.",
+        alertDelete: "¿Estás seguro? Esta acción no se puede deshacer.",
+        alertMax: "Máximo de 12 cultivos activos admitidos.",
+        darkMode: "Modo Oscuro",
+        growth: "Crecimiento",
+        fruiting: "Fructificación",
+        harvestReady: "Listo para cosechar",
+        today: "Hoy",
+        resetData: "Restablecer datos",
+        confirmReset: "¿Estás seguro de que quieres borrar todos los datos? Esta acción no se puede deshacer.",
+        disclaimerTitle: "Descargo de responsabilidad",
+        disclaimerText: "Los consejos de esta aplicación se basan en pautas generales. Los resultados pueden variar según tus condiciones de cultivo. Confía siempre en tus propias observaciones.",
+        helpTitle: "Ayuda e Información",
+        helpIntro: "Con el CoachHuertoEnCasa, sigue fácilmente el progreso de tus frutas y verduras. Añade un cultivo, sigue la cronología visual y toma fotos para crear un diario visual.",
+        helpText: "Tu privacidad está garantizada. Todos los datos se guardan localmente en tu dispositivo. No se envían datos a ningún servidor.",
+        light: "Luz",
+        cycle: "Ciclo",
+        nutrition: "Nutrición",
+        extraInfo: "Información extra",
+        growthReportTitle: "Informe de cultivo",
+        shareTitle: "Compartir informe",
+        shareExplain: "¡Comparte tu informe de cultivo y deja que tus amigos disfruten de tu cosecha!",
+        shareNow: "Compartir ahora",
+        close: "Cerrar",
+        shareFallback: "Tu navegador no admite la función de compartir. En su lugar, se descargará la imagen.",
+        reportIntro: "¡Mira qué hermosa cosecha estoy cultivando! 🌱🥕"
+    }
+};
+
+/* ==== Plant Data ==== */
+const PLANT_DATA = {
+    'Selecteer...': { displayName: {nl: 'Selecteer een soort...', en: 'Select a type...', de: 'Wähle eine Art...', fr: 'Sélectionnez un type...', es: 'Selecciona un tipo...'}, schedule: { targetHarvestWeek: 8 }, info: {} },
+    'Kruiden': { 
+        displayName: {nl: 'Kruiden (Basilicum, Munt, etc.)', en: 'Herbs (Basil, Mint, etc.)', de: 'Kräuter (Basilikum, Minze, etc.)', fr: 'Herbes (Basilic, Menthe, etc.)', es: 'Hierbas (Albahaca, Menta, etc.)'},
+        schedule: { targetHarvestWeek: 8, hasFruiting: false },
+        info: { light: '14–18u/dag', cycle: '4–8 weken tot eerste oogst; daarna doorplukken', nutrition: 'Lichte voeding, wekelijks of tweewekelijks.', tips: 'Regelmatig oogsten stimuleert nieuwe groei.' }
+    },
+    'Bladgroenten': {
+        displayName: {nl: 'Bladgroenten (Sla, Rucola, etc.)', en: 'Leafy Greens (Lettuce, Arugula, etc.)', de: 'Blattgemüse (Salat, Rucola, etc.)', fr: 'Légumes-feuilles (Laitue, Roquette, etc.)', es: 'Hortalizas de hoja (Lechuga, Rúcula, etc.)'},
+        schedule: { targetHarvestWeek: 6, hasFruiting: false },
+        info: { light: '14–18u/dag', cycle: '3–6 weken tot oogst', nutrition: 'Lichte tot matige voeding. Kan 2-3 dagen gespoeld worden voor de oogst in hydrocultuur.', tips: 'Oogst buitenste bladeren om de plant door te laten groeien.' }
+    },
+    'Microgroenten': {
+        displayName: {nl: 'Microgroenten (Radijs, Broccoli, etc.)', en: 'Microgreens (Radish, Broccoli, etc.)', de: 'Microgreens (Radieschen, Brokkoli, etc.)', fr: 'Micropousses (Radis, Brocoli, etc.)', es: 'Microgreens (Rábano, Brócoli, etc.)'},
+        schedule: { targetHarvestWeek: 2, hasFruiting: false },
+        info: { light: '12–16u/dag', cycle: '7–14 dagen tot oogst', nutrition: 'Meestal geen of zeer lichte voeding nodig.', tips: 'Oogst net boven de grond als de eerste echte blaadjes verschijnen.' }
+    },
+    'Aardbeien': {
+        displayName: {nl: 'Aardbeien (Doordragend)', en: 'Strawberries (Everbearing)', de: 'Erdbeeren (immertragend)', fr: 'Fraises (remontantes)', es: 'Fresas (de día neutro)'},
+        schedule: { targetHarvestWeek: 12, hasFruiting: true, fruitingStartWeek: 6 },
+        info: { light: '16–18u/dag', cycle: '8–12 weken tot eerste vrucht, produceert daarna in golven', nutrition: 'Matige voeding. Hogere kalium/fosfor tijdens de bloei.', tips: 'Verwijder uitlopers om energie naar de vruchten te sturen.' }
+    },
+    'Cherrytomaten': {
+        displayName: {nl: 'Cherrytomaten (Dwergras)', en: 'Cherry Tomatoes (Dwarf)', de: 'Cherrytomaten (Zwerg)', fr: 'Tomates cerises (naines)', es: 'Tomates cherry (enanos)'},
+        schedule: { targetHarvestWeek: 14, hasFruiting: true, fruitingStartWeek: 8 },
+        info: { light: '16–18u/dag', cycle: '10–14 weken tot eerste oogst', nutrition: 'Matige tot hoge voeding.', tips: 'Heeft ondersteuning nodig (stok of kooi).' }
+    },
+    'Paprika/Chili': {
+        displayName: {nl: 'Paprika / Chili Pepers (Compact)', en: 'Peppers / Chilies (Compact)', de: 'Paprika / Chilis (kompakt)', fr: 'Poivrons / Piments (compacts)', es: 'Pimientos / Chiles (compactos)'},
+        schedule: { targetHarvestWeek: 16, hasFruiting: true, fruitingStartWeek: 9 },
+        info: { light: '16–18u/dag', cycle: '12–16+ weken tot eerste vrucht', nutrition: 'Matige tot hoge voeding. Heeft vaak extra Calcium/Magnesium nodig.', tips: 'Toppen kan zorgen voor een bossigere plant en meer vruchten.' }
+    },
+    'Dwergkomkommers': {
+        displayName: {nl: 'Dwergkomkommers', en: 'Dwarf Cucumbers', de: 'Zwerggurken', fr: 'Concombres nains', es: 'Pepinos enanos'},
+        schedule: { targetHarvestWeek: 10, hasFruiting: true, fruitingStartWeek: 6 },
+        info: { light: '16–18u/dag', cycle: '8–10+ weken tot oogst', nutrition: 'Matige tot hoge voeding.', tips: 'Klimplant, heeft een rek of latwerk nodig om tegenop te groeien.' }
+    },
+     'Dwergcitrus': {
+        displayName: {nl: 'Dwergcitrus', en: 'Dwarf Citrus', de: 'Zwergzitrus', fr: 'Agrumes nains', es: 'Cítricos enanos'},
+        schedule: { targetHarvestWeek: 24, hasFruiting: true, fruitingStartWeek: 16 },
+        info: { light: '14–16u/dag (fel licht)', cycle: 'Meerdere maanden; dit is een langetermijnproject.', nutrition: 'Lichte en regelmatige voeding.', tips: 'Geduld is essentieel. Kan met de hand bestoven worden voor betere vruchtzetting.' }
+    },
+    'Champignons': {
+        displayName: {nl: 'Champignons / Oesterzwammen', en: 'Mushrooms / Oyster Mushrooms', de: 'Pilze / Austernpilze', fr: 'Champignons / Pleurotes', es: 'Champiñones / Setas de ostra'},
+        schedule: { targetHarvestWeek: 5, hasFruiting: false },
+        info: { light: 'Minimaal licht nodig', cycle: '2–5 weken per "vlucht" (oogstgolf)', nutrition: 'Geen voeding nodig, groeit op een substraatkit.', tips: 'Hoge luchtvochtigheid en goede luchtcirculatie zijn cruciaal.' }
+    }
+};
+
+/* ==== State & utils ==== */
+let currentLang = localStorage.getItem('appLang') || 'nl';
+let isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+const uid = () => Math.random().toString(36).slice(2, 10);
+const todayISO = () => new Date().toISOString().slice(0, 10);
+const toISODate = d => new Date(d).toISOString().slice(0, 10);
+const fmtDate = d => new Date(d).toLocaleDateString(currentLang);
+const fmtShortDate = d => new Date(d).toLocaleDateString(currentLang, { day: 'numeric', month: 'short' });
+const daysBetween = (a, b) => Math.floor((new Date(b) - new Date(a)) / 86400000);
+const weekNumberSince = (start, at) => Math.floor(daysBetween(start, at) / 7);
+function t(k) { return TRANSLATIONS[currentLang]?.[k] || `[${k}]`; }
+
+/* ==== Storage ==== */
+const LS_KEY = 'homegrow_coach_v1';
+let state = { plants: [], viewArchived: false };
+function loadState() { try { const raw = localStorage.getItem(LS_KEY); state = raw ? JSON.parse(raw) : { plants: [], viewArchived: false }; (state.plants || []).forEach(p => { p.acknowledgedActions = p.acknowledgedActions || []; if (typeof p.isCollapsed === 'undefined') p.isCollapsed = false; if (typeof p.archived === 'undefined') p.archived = false; }); } catch (e) { state = { plants: [], viewArchived: false }; } }
+function saveState() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) { } }
+loadState();
+
+/* ==== Actions ==== */
+const createActionId = (type, date) => `${type}-${toISODate(date)}`;
+function getPendingActions(plant, dateToCheck) {
+    const out = [];
+    const start = new Date(plant.planted_at);
+    const today = dateToCheck;
+    if (today < start) return [];
+
+    const plantData = PLANT_DATA[plant.plantType];
+    if (!plantData) return [];
+
+    for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
+        const age = daysBetween(start, d);
+        const arr = [];
+        
+        // General reminder to check water every 2 days
+        if (age > 0 && age % 2 === 0) {
+            arr.push({ type: 'water', label: t('checkWater'), date: new Date(d) });
+        }
+        // General reminder to check nutrition every 7 days
+        if (age > 6 && age % 7 === 0) {
+            arr.push({ type: 'feed', label: t('checkFeed'), date: new Date(d) });
+        }
+        // Harvest reminder
+        if (age === plant.schedule.targetHarvestWeek * 7) {
+            arr.push({ type: 'harvest', label: t('harvest'), date: new Date(d) });
+        }
+        arr.forEach(a => { const id = createActionId(a.type, a.date); if (!plant.acknowledgedActions.includes(id)) out.push(a); });
+    }
+    return out;
+}
+
+
+/* ==== App init ==== */
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('langSelect').value = currentLang;
+    document.getElementById('langSelect').onchange = e => { currentLang = e.target.value; localStorage.setItem('appLang', currentLang); translateUI(); };
+    document.getElementById('darkModeToggle').onchange = e => setDarkMode(e.target.checked);
+    const chk = document.getElementById('chkArchived'); chk.checked = state.viewArchived; chk.onchange = e => { state.viewArchived = e.target.checked; saveAndRender(); };
+    document.getElementById('btnAdd').onclick = addPlant; document.getElementById('btnAdd2').onclick = addPlant;
+    document.getElementById('btnReset').onclick = () => { if (confirm(t('confirmReset'))) { localStorage.removeItem(LS_KEY); location.reload(); } };
+    document.getElementById('btnHelp').onclick = () => document.getElementById('helpModal').style.display = 'flex';
+    document.getElementById('btnHeaderShare').onclick = openShareModal;
+    document.querySelectorAll('.modal-close,[data-close-modal]').forEach(b => b.addEventListener('click', () => { const m = b.closest('.modal-overlay'); if (m) m.style.display = 'none'; }));
+    document.querySelectorAll('.modal-overlay').forEach(ov => ov.addEventListener('click', e => { if (e.target === ov) ov.style.display = 'none'; }));
+    setDarkMode(isDarkMode); translateUI(); setupMenu();
+    const btnShareNow = document.getElementById('btnShareNow');
+    if (btnShareNow) btnShareNow.addEventListener('click', shareReportJPG);
+});
+function setupMenu(){const t=document.getElementById('btnMenuToggle'), m=document.getElementById('menuContent'); if(t&&m){t.onclick=e=>{e.stopPropagation();m.classList.toggle('is-open');}; document.addEventListener('click',e=>{if(m.classList.contains('is-open')&&!m.contains(e.target))m.classList.remove('is-open');});}}
+
+function translateUI() {
+    document.title = t('appName');
+    const span = document.getElementById('appTitleText');
+    if (span) span.textContent = t('appName');
+    document.getElementById('darkModeLabel').textContent = t('darkMode');
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
+    render();
+}
+function setDarkMode(enabled) { isDarkMode = enabled; document.body.classList.toggle('dark', enabled); document.getElementById('darkModeToggle').checked = enabled; localStorage.setItem('isDarkMode', enabled); }
+
+/* ==== Plant ops ==== */
+function addPlant() {
+    const active = state.plants.filter(p => !p.archived).length;
+    if (active >= 12) { alert(t('alertMax')); return; }
+    const p = { id: uid(), name: `${t('plant')} ${active + 1}`, plantType: 'Selecteer...', planted_at: todayISO(), notes: "", photos: [], acknowledgedActions: [], isCollapsed: false, archived: false, schedule: { ...PLANT_DATA['Selecteer...'].schedule } };
+    state.plants.unshift(p);
+    saveAndRender();
+}
+function getPlant(id) { return state.plants.find(p => p.id === id); }
+function updatePlant(id, props) { const p = getPlant(id); if (p) { Object.assign(p, props); saveAndRender(); } }
+function deletePlant(id) { if (confirm(t('alertDelete'))) { state.plants = state.plants.filter(p => p.id !== id); saveAndRender(); } }
+function toggleCollapse(id) { const p = getPlant(id); if (p) { p.isCollapsed = !p.isCollapsed; saveAndRender(); } }
+function handlePlantTypeChange(id, key) {
+    const plantData = PLANT_DATA[key];
+    if (plantData) {
+        updatePlant(id, { plantType: key, schedule: { ...plantData.schedule } });
+    }
+}
+function saveAndRender() { saveState(); render(); }
+window.addPlant = addPlant; window.updatePlant = updatePlant; window.deletePlant = deletePlant; window.toggleCollapse = toggleCollapse; window.handlePlantTypeChange = handlePlantTypeChange;
+
+/* ==== Progress ==== */
+function createProgressBarHTML(plant) {
+    const s = plant.schedule;
+    if (!s || !s.targetHarvestWeek) return '';
+    const totalW = Math.max(1, s.targetHarvestWeek);
+    
+    const growthW = s.hasFruiting ? (s.fruitingStartWeek || totalW) : totalW;
+    const fruitingW = s.hasFruiting ? totalW - growthW : 0;
+    
+    const pct = w => (w / totalW) * 100;
+    const start = new Date(plant.planted_at);
+    const end = new Date(start);
+    end.setDate(end.getDate() + totalW * 7);
+
+    const elapsedDays = Math.max(0, daysBetween(start, new Date()));
+    const progressPct = Math.min(100, (elapsedDays / (totalW * 7)) * 100);
+
+    return `<div class="progress-wrapper">
+        <div class="progress-date-labels"><span>${fmtDate(start)}</span><span>${fmtDate(end)}</span></div>
+        <div class="progress-bar-container">
+            <div class="progress-bar">
+                <div class="progress-segment seg-growth" style="width:${pct(growthW)}%"></div>
+                ${fruitingW > 0 ? `<div class="progress-segment seg-fruiting" style="width:${pct(fruitingW)}%"></div>` : ''}
+            </div>
+            <div class="progress-marker" style="left:${progressPct}%"></div>
+            <div class="progress-marker-label" style="left:${progressPct}%">${t('today')}</div>
+        </div>
+        <div class="progress-phase-labels-container">
+            <div class="progress-phase-label" style="width:${pct(growthW)}%">${t('growth')}</div>
+            ${fruitingW > 0 ? `<div class="progress-phase-label" style="width:${pct(fruitingW)}%">${t('fruiting')}</div>` : ''}
+        </div>
+    </div>`;
+}
+
+/* ==== Render ==== */
+function render() {
+    const active = state.plants.filter(p => !p.archived), archived = state.plants.filter(p => p.archived);
+    const grid = document.getElementById('grid'), archivedGrid = document.getElementById('archivedGrid'), archivedSection = document.getElementById('archivedSection');
+    
+    grid.innerHTML = active.map(p => {
+        const ageDays = Math.max(0, daysBetween(p.planted_at, new Date())),
+            w = Math.floor(ageDays / 7),
+            d = ageDays % 7;
+        const plantInfo = PLANT_DATA[p.plantType]?.info;
+
+        return `<div class="card ${p.isCollapsed ? 'is-collapsed' : ''}" id="card_${p.id}">
+            <div class="card-h">
+                <div class="row-name">
+                    <input type="text" value="${p.name}" onchange="updatePlant('${p.id}', {name: this.value})"/>
+                    <button class="btn-collapse" onclick="toggleCollapse('${p.id}')"><svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg></button>
+                </div>
+                <div class="plant-type-row">
+                    <select onchange="handlePlantTypeChange('${p.id}', this.value)">
+                        ${Object.keys(PLANT_DATA).map(key => `<option value="${key}" ${p.plantType === key ? 'selected' : ''}>${PLANT_DATA[key].displayName[currentLang] || key}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="row-info">
+                    <label><span class="muted">${t('plantedOn')}</span> <input type="date" value="${p.planted_at}" onchange="updatePlant('${p.id}', {planted_at: this.value})"/></label>
+                    <div style="display:flex; gap: 8px;">
+                        ${plantInfo?.light ? `<span class="pill">💡 ${plantInfo.light}</span>` : ''}
+                        <span class="pill"><b>${t('age')}</b> ${w} ${t('weeks')} ${d} ${t('days')}</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button onclick="updatePlant('${p.id}', {archived: true})">${t('archiveCycle')}</button>
+                        <button class="danger" onclick="deletePlant('${p.id}')">${t('delete')}</button>
+                    </div>
+                </div>
+                ${renderActionsBar(p)}
+                ${p.plantType !== 'Selecteer...' ? createProgressBarHTML(p) : ''}
+            </div>
+            <div class="card-b">
+                <div class="tabs">
+                    <button class="tab active" data-tab="timeline" onclick="switchTab(this, '${p.id}')">${t('timeline')}</button>
+                    <button class="tab" data-tab="care" onclick="switchTab(this, '${p.id}')">${t('care')}</button>
+                    <button class="tab" data-tab="notes" onclick="switchTab(this, '${p.id}')">${t('notes')}</button>
+                </div>
+                <div id="content_${p.id}" style="margin-top:12px;"></div>
+            </div>
+        </div>`;
+    }).join('');
+
+    archivedGrid.innerHTML = archived.map(p => `<div class="card"><div class="card-h"><div class="row-name"><b>${p.name}</b> <span class="muted" style="margin-left:8px">(${PLANT_DATA[p.plantType]?.displayName[currentLang] || p.plantType})</span></div><div class="row-info"><span>${t('plantedOn')} ${fmtDate(p.planted_at)}</span><div class="action-buttons"><button onclick="updatePlant('${p.id}', {archived: false})">${t('unarchive')}</button><button class="danger" onclick="deletePlant('${p.id}')">${t('delete')}</button></div></div></div></div>`).join('');
+    
+    document.getElementById('empty').style.display = active.length === 0 ? 'block' : 'none';
+    archivedSection.style.display = state.viewArchived && archived.length > 0 ? 'block' : 'none';
+    
+    active.forEach(p => { const card = document.getElementById(`card_${p.id}`); if (card && !p.isCollapsed) { const tab = card.querySelector('.tab.active'); if (tab) switchTab(tab, p.id); } });
+}
+
+function renderActionsBar(plant) {
+    const actions = getPendingActions(plant, new Date());
+    if (actions.length === 0) return `<div class="actions-bar" id="actions_${plant.id}"></div>`;
+    const html = actions.map(a => {
+        const id = createActionId(a.type, a.date);
+        return `<div class="action-item ${a.type}" onclick="acknowledgeAction('${plant.id}', '${id}')">
+            <div class="left"><span>${a.label}</span></div>
+            <span class="action-date">${fmtShortDate(a.date)}</span>
+        </div>`;
+    }).join('');
+    return `<div class="actions-bar" id="actions_${plant.id}">${html}</div>`;
+}
+window.render = render;
+
+/* ==== Tabs ==== */
+function switchTab(el, id) {
+    const card = el.closest('.card');
+    card.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const tab = el.getAttribute('data-tab');
+    const c = document.getElementById(`content_${id}`);
+    const p = getPlant(id);
+    if (tab === 'timeline') c.innerHTML = renderTimeline(p);
+    if (tab === 'care') c.innerHTML = renderCareInfo(p);
+    if (tab === 'notes') c.innerHTML = renderNotes(p);
+}
+window.switchTab = switchTab;
+
+function renderTimeline(p) {
+    const byWeek = p.photos.reduce((acc, x) => { const w = weekNumberSince(p.planted_at, x.date); (acc[w] || (acc[w] = [])).push(x); return acc; }, {});
+    return `<div class="uploader">
+        <label>${t('date')}</label><input type="date" id="photo_date_${p.id}" value="${todayISO()}"/>
+        <label>${t('noteOptional')}</label><input type="text" id="photo_note_${p.id}" placeholder="${t('week')} ${weekNumberSince(p.planted_at, todayISO())}"/>
+        <input type="file" id="photo_file_${p.id}" accept="image/*"/><button onclick="addPhoto('${p.id}')">${t('uploadPhoto')}</button>
+    </div>
+    <div style="margin-top:16px;">
+        ${Object.keys(byWeek).sort((a, b) => a - b).map(w =>
+        `<div class="section-title" style="margin-top:0;">${t('week')} ${w}</div>
+            <div class="grid" style="gap:12px;margin-bottom:12px;">
+            ${byWeek[w].map(ph =>
+            `<figure>
+                <img src="${ph.data}" alt="Week ${w}"/>
+                <figcaption>
+                    <div><div class="muted">${fmtDate(ph.date)}</div><div>${ph.note || ''}</div></div>
+                    <button class="danger" style="padding:4px 8px;font-size:12px" onclick="removePhoto('${p.id}', '${ph.id}')">${t('remove')}</button>
+                </figcaption>
+            </figure>`
+        ).join('')}
+            </div>`
+    ).join('') || `<p class="muted" style="text-align:center;">${t('noPhotos')}</p>`}
+    </div>`;
+}
+
+function renderCareInfo(p) {
+    const info = PLANT_DATA[p.plantType]?.info;
+    if (!info) return `<p class="muted">${t('Select a type for info')}</p>`;
+    return `<div class="care-info">
+        <div><h4>${t('light')}</h4><p>💡 ${info.light || 'N/A'}</p></div>
+        <div><h4>${t('cycle')}</h4><p>🔄 ${info.cycle || 'N/A'}</p></div>
+        <div><h4>${t('nutrition')}</h4><p>🥦 ${info.nutrition || 'N/A'}</p></div>
+        ${info.tips ? `<div><h4>${t('extraInfo')}</h4><p>✨ ${info.tips}</p></div>` : ''}
+    </div>`;
+}
+
+function renderNotes(p) { return `<textarea style="width:100%;min-height:120px;" onchange="updatePlant('${p.id}', {notes: this.value})" placeholder="${t('notesPlaceholder')}">${p.notes || ''}</textarea>`; }
+
+function addPhoto(id) {
+    const fi = document.getElementById(`photo_file_${id}`), date = document.getElementById(`photo_date_${id}`).value, note = document.getElementById(`photo_note_${id}`).value;
+    if (!fi.files[0]) { alert(t('alertPhoto')); return; }
+    const r = new FileReader();
+    r.onload = e => { const p = getPlant(id); p.photos.push({ id: uid(), date, note, data: e.target.result }); p.photos.sort((a, b) => new Date(a.date) - new Date(b.date)); saveAndRender(); };
+    r.readAsDataURL(fi.files[0]);
+}
+window.addPhoto = addPhoto;
+
+function removePhoto(id, photoId) { const p = getPlant(id); p.photos = p.photos.filter(x => x.id !== photoId); saveAndRender(); }
+window.removePhoto = removePhoto;
+
+function acknowledgeAction(id, actId) { const p = getPlant(id); if (p && !p.acknowledgedActions.includes(actId)) { p.acknowledgedActions.push(actId); saveAndRender(); } }
+window.acknowledgeAction = acknowledgeAction;
+
+/* ==== Share modal ==== */
+function openShareModal(){document.getElementById('shareModal').style.display='flex';document.getElementById('shareFallbackMsg').style.display=navigator.share?'none':'block';}
+window.openShareModal=openShareModal;
+
+async function buildReportJPGBlob() {
+    const active = state.plants.filter(p => !p.archived);
+    const W = 1080, headerH = 260, rowH = 320, VPad = 32, HPad = 40;
+    const H = headerH + (active.length * (rowH + VPad)) + VPad;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = Math.max(headerH + VPad * 2, H);
+    const ctx = canvas.getContext('2d');
+    
+    const C = { bg: '#FFFFFF', fg: '#3B4A3F', main: '#4CAF50', muted: '#6C7A70', line: '#DCE5D8', segGrowth: '#81C784', segFruiting: '#FFB74D', danger: '#F44336' };
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const intro = t('reportIntro');
+    const dateStr = new Date().toLocaleString(currentLang, { year: 'numeric', month: 'long', day: 'numeric' });
+    
+    const logo = await new Promise(res => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => res(img);
+        img.onerror = () => res(null);
+        img.src = 'kweekmaatjelogo.png';
+    });
+    
+    let tx = HPad;
+    if (logo) {
+        ctx.drawImage(logo, HPad, 24, 56, 56);
+        tx = HPad + 56 + 12;
+    }
+    ctx.fillStyle = C.main;
+    ctx.font = 'bold 44px system-ui, Arial';
+    ctx.fillText(t('appName'), tx, 70);
+    ctx.fillStyle = C.fg;
+    ctx.font = '28px system-ui, Arial';
+    ctx.fillText(intro, HPad, 120);
+    ctx.fillStyle = C.muted;
+    ctx.font = '20px system-ui, Arial';
+    ctx.fillText(`${t('growthReportTitle')} • ${dateStr}`, HPad, 160);
+    
+    ctx.strokeStyle = C.line;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(HPad, 190);
+    ctx.lineTo(W - HPad, 190);
+    ctx.stroke();
+
+    function drawPB(x, y, w, h, plant) {
+        const s = plant.schedule;
+        if (!s || !s.targetHarvestWeek) return;
+        const totalW = Math.max(1, s.targetHarvestWeek);
+        const growthW = s.hasFruiting ? (s.fruitingStartWeek || totalW) : totalW;
+        const fruitingW = s.hasFruiting ? totalW - growthW : 0;
+        const px = p => Math.round((p / totalW) * w);
+
+        ctx.strokeStyle = C.line;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, w, h);
+
+        let cur = x;
+        if(px(growthW) > 0) { ctx.fillStyle = C.segGrowth; ctx.fillRect(cur, y, px(growthW), h); cur += px(growthW); }
+        if(px(fruitingW) > 0) { ctx.fillStyle = C.segFruiting; ctx.fillRect(cur, y, px(fruitingW), h); }
+
+        const elapsed = Math.max(0, daysBetween(plant.planted_at, new Date()));
+        const prog = Math.max(0, Math.min(1, elapsed / (s.targetHarvestWeek * 7)));
+        const mx = x + Math.round(w * prog);
+        ctx.fillStyle = C.danger;
+        ctx.fillRect(mx - 1, y - 6, 3, h + 12);
+    }
+
+    async function drawLatest(x, y, w, h, plant) {
+        const last = (plant.photos || []).slice().pop();
+        ctx.strokeStyle = C.line;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, w, h);
+        if (!last) {
+            ctx.fillStyle = '#fafafa'; ctx.fillRect(x + 2, y + 2, w - 4, h - 4);
+            ctx.fillStyle = C.muted; ctx.font = '16px system-ui, Arial';
+            const txt = t('noPhotos'); const tw = ctx.measureText(txt).width;
+            ctx.fillText(txt, x + (w - tw) / 2, y + h / 2); return;
+        }
+        await new Promise(r => {
+            const img = new Image();
+            img.onload = () => {
+                const ir = img.width / img.height, br = w / h;
+                let dw, dh, dx, dy;
+                if (ir > br) { dh = h; dw = ir * dh; dx = x + (w - dw) / 2; dy = y; } 
+                else { dw = w; dh = dw / ir; dx = x; dy = y + (h - dh) / 2; }
+                ctx.drawImage(img, dx, dy, dw, dh); r();
+            };
+            img.onerror = () => r();
+            img.src = last.data;
+        });
+    }
+    
+    let y = 220;
+    for (const p of active) {
+        ctx.fillStyle = C.fg;
+        ctx.font = 'bold 26px system-ui, Arial';
+        ctx.fillText(p.name, 40, y);
+        ctx.fillStyle = C.muted;
+        ctx.font = '18px system-ui, Arial';
+        ctx.fillText(PLANT_DATA[p.plantType]?.displayName[currentLang] || p.plantType, 40, y + 26);
+        drawPB(40, y + 44, W - 40 * 2 - 360, 18, p);
+        await drawLatest(W - 40 - 320, y - 10, 320, 180, p);
+        ctx.strokeStyle = '#eee';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(40, y + rowH - 8);
+        ctx.lineTo(W - 40, y + rowH - 8);
+        ctx.stroke();
+        y += rowH;
+    }
+
+    const dataURL = canvas.toDataURL('image/jpeg', 0.92);
+    const arr = dataURL.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new Blob([u8arr], { type: mime });
+}
+
+async function shareReportJPG() {
+    const title = t('appName');
+    const text = t('reportIntro');
+    const blob = await buildReportJPGBlob();
+    const name = title.replace(/\s+/g, '_') + '_report.jpg';
+    
+    try {
+        if (navigator.canShare && navigator.canShare({ files: [new File([blob], name, { type: 'image/jpeg' })] })) {
+            await navigator.share({
+                files: [new File([blob], name, { type: 'image/jpeg' })],
+                title: title,
+                text: text,
+            });
+        } else {
+            throw new Error("Can't share files.");
+        }
+    } catch (err) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+    } finally {
+        document.getElementById('shareModal').style.display = 'none';
+    }
+}
+window.shareReportJPG = shareReportJPG;
+
+</script>
+</body>
+</html>
+
