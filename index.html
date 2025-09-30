@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8"/>
-<link rel="icon" type="image/png" href="kweekmaatjelogo.png">
+<link rel="icon" type="image/png" href="homegrowcoachlogo.png">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>ThuisKweekCoach</title>
@@ -120,7 +120,7 @@ figcaption{padding:10px;display:flex;justify-content:space-between;gap:10px;font
 <header>
 <div class="container header-content">
 <h1>
-    <img class="app-logo" src="kweekmaatjelogo.png" alt="logo"/>
+    <img class="app-logo" src="homegrowcoachlogo.png" alt="logo"/>
     <span id="appTitleText">ThuisKweekCoach</span>
 </h1>
 <div class="header-actions">
@@ -246,7 +246,8 @@ const TRANSLATIONS = {
         shareNow: "Nu Delen",
         close: "Sluiten",
         shareFallback: "Delen wordt niet ondersteund door je browser. De afbeelding wordt in plaats daarvan gedownload.",
-        reportIntro: "Kijk eens wat een mooie oogst ik aan het kweken ben! 🌱🥕"
+        reportIntro: "Kijk eens wat een mooie oogst ik aan het kweken ben! 🌱🥕",
+        selectTypeForInfo: "Selecteer een type voor info."
     },
     en: {
         appName: "HomeGrowCoach",
@@ -301,7 +302,8 @@ const TRANSLATIONS = {
         shareNow: "Share Now",
         close: "Close",
         shareFallback: "Sharing is not supported by your browser. The image will be downloaded instead.",
-        reportIntro: "Look at the beautiful harvest I'm growing! 🌱🥕"
+        reportIntro: "Look at the beautiful harvest I'm growing! 🌱🥕",
+        selectTypeForInfo: "Select a type for info."
     },
     de: {
         appName: "HeimAnbauCoach",
@@ -356,7 +358,8 @@ const TRANSLATIONS = {
         shareNow: "Jetzt teilen",
         close: "Schließen",
         shareFallback: "Teilen wird von deinem Browser nicht unterstützt. Das Bild wird stattdessen heruntergeladen.",
-        reportIntro: "Schau mal, was für eine schöne Ernte ich anbaue! 🌱🥕"
+        reportIntro: "Schau mal, was für eine schöne Ernte ich anbaue! 🌱🥕",
+        selectTypeForInfo: "Wähle eine Art für Infos."
     },
     fr: {
         appName: "CoachPotagerMaison",
@@ -411,7 +414,8 @@ const TRANSLATIONS = {
         shareNow: "Partager maintenant",
         close: "Fermer",
         shareFallback: "Le partage n'est pas pris en charge par votre navigateur. L'image sera téléchargée à la place.",
-        reportIntro: "Regardez la belle récolte que je cultive ! 🌱🥕"
+        reportIntro: "Regardez la belle récolte que je cultive ! 🌱🥕",
+        selectTypeForInfo: "Sélectionnez un type pour les infos."
     },
     es: {
         appName: "CoachHuertoEnCasa",
@@ -466,59 +470,1020 @@ const TRANSLATIONS = {
         shareNow: "Compartir ahora",
         close: "Cerrar",
         shareFallback: "Tu navegador no admite la función de compartir. En su lugar, se descargará la imagen.",
-        reportIntro: "¡Mira qué hermosa cosecha estoy cultivando! 🌱🥕"
+        reportIntro: "¡Mira qué hermosa cosecha estoy cultivando! 🌱🥕",
+        selectTypeForInfo: "Selecciona un tipo para ver la información."
     }
 };
 
 /* ==== Plant Data ==== */
 const PLANT_DATA = {
-    'Selecteer...': { displayName: {nl: 'Selecteer een soort...', en: 'Select a type...', de: 'Wähle eine Art...', fr: 'Sélectionnez un type...', es: 'Selecciona un tipo...'}, schedule: { targetHarvestWeek: 8 }, info: {} },
-    'Kruiden': { 
-        displayName: {nl: 'Kruiden (Basilicum, Munt, etc.)', en: 'Herbs (Basil, Mint, etc.)', de: 'Kräuter (Basilikum, Minze, etc.)', fr: 'Herbes (Basilic, Menthe, etc.)', es: 'Hierbas (Albahaca, Menta, etc.)'},
-        schedule: { targetHarvestWeek: 8, hasFruiting: false },
-        info: { light: '14–18u/dag', cycle: '4–8 weken tot eerste oogst; daarna doorplukken', nutrition: 'Lichte voeding, wekelijks of tweewekelijks.', tips: 'Regelmatig oogsten stimuleert nieuwe groei.' }
+    'Selecteer...': { 
+        displayName: {nl: 'Selecteer een soort...', en: 'Select a type...', de: 'Wähle eine Art...', fr: 'Sélectionnez un type...', es: 'Selecciona un tipo...'}, 
+        schedule: { targetHarvestWeek: 8 }, 
+        info: {} 
     },
-    'Bladgroenten': {
-        displayName: {nl: 'Bladgroenten (Sla, Rucola, etc.)', en: 'Leafy Greens (Lettuce, Arugula, etc.)', de: 'Blattgemüse (Salat, Rucola, etc.)', fr: 'Légumes-feuilles (Laitue, Roquette, etc.)', es: 'Hortalizas de hoja (Lechuga, Rúcula, etc.)'},
-        schedule: { targetHarvestWeek: 6, hasFruiting: false },
-        info: { light: '14–18u/dag', cycle: '3–6 weken tot oogst', nutrition: 'Lichte tot matige voeding. Kan 2-3 dagen gespoeld worden voor de oogst in hydrocultuur.', tips: 'Oogst buitenste bladeren om de plant door te laten groeien.' }
+    'Tomaat': {
+        displayName: { nl: 'Tomaat', en: 'Tomato', de: 'Tomate', fr: 'Tomate', es: 'Tomate' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Volle zon (6-8u)', en: 'Full sun (6-8h)', de: 'Volle Sonne (6-8h)', fr: 'Plein soleil (6-8h)', es: 'Pleno sol (6-8h)' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Rijk aan kalium, stikstof, magnesium', en: 'Rich in potassium, nitrogen, magnesium', de: 'Reich an Kalium, Stickstoff, Magnesium', fr: 'Riche en potassium, azote, magnésium', es: 'Rico en potasio, nitrógeno, magnesio' },
+            tips: { nl: 'Dieven regelmatig voor betere oogst', en: 'Prune suckers regularly for a better harvest', de: 'Regelmäßig ausgeizen für eine bessere Ernte', fr: 'Pincez régulièrement les gourmands pour une meilleure récolte', es: 'Pode los chupones regularmente para una mejor cosecha' }
+        }
     },
-    'Microgroenten': {
-        displayName: {nl: 'Microgroenten (Radijs, Broccoli, etc.)', en: 'Microgreens (Radish, Broccoli, etc.)', de: 'Microgreens (Radieschen, Brokkoli, etc.)', fr: 'Micropousses (Radis, Brocoli, etc.)', es: 'Microgreens (Rábano, Brócoli, etc.)'},
-        schedule: { targetHarvestWeek: 2, hasFruiting: false },
-        info: { light: '12–16u/dag', cycle: '7–14 dagen tot oogst', nutrition: 'Meestal geen of zeer lichte voeding nodig.', tips: 'Oogst net boven de grond als de eerste echte blaadjes verschijnen.' }
+    'Komkommer': {
+        displayName: { nl: 'Komkommer', en: 'Cucumber', de: 'Gurke', fr: 'Concombre', es: 'Pepino' },
+        schedule: { targetHarvestWeek: 34, hasFruiting: true, fruitingStartWeek: 22 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Veel stikstof, humusrijke bodem', en: 'Lots of nitrogen, humus-rich soil', de: 'Viel Stickstoff, humusreicher Boden', fr: 'Beaucoup d\'azote, sol riche en humus', es: 'Mucho nitrógeno, suelo rico en humus' },
+            tips: { nl: 'Ondersteunen met klimrek', en: 'Support with a climbing frame', de: 'Mit Klettergerüst unterstützen', fr: 'Soutenir avec un treillis', es: 'Apoyar con un enrejado' }
+        }
     },
-    'Aardbeien': {
-        displayName: {nl: 'Aardbeien (Doordragend)', en: 'Strawberries (Everbearing)', de: 'Erdbeeren (immertragend)', fr: 'Fraises (remontantes)', es: 'Fresas (de día neutro)'},
-        schedule: { targetHarvestWeek: 12, hasFruiting: true, fruitingStartWeek: 6 },
-        info: { light: '16–18u/dag', cycle: '8–12 weken tot eerste vrucht, produceert daarna in golven', nutrition: 'Matige voeding. Hogere kalium/fosfor tijdens de bloei.', tips: 'Verwijder uitlopers om energie naar de vruchten te sturen.' }
+    'Paprika': {
+        displayName: { nl: 'Paprika', en: 'Bell Pepper', de: 'Paprika', fr: 'Poivron', es: 'Pimiento' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosfor en kalium belangrijk', en: 'Phosphorus and potassium are important', de: 'Phosphor und Kalium wichtig', fr: 'Le phosphore et le potassium sont importants', es: 'El fósforo y el potasio son importantes' },
+            tips: { nl: 'Warmteminnend, kas aanbevolen', en: 'Heat-loving, greenhouse recommended', de: 'Wärmeliebend, Gewächshaus empfohlen', fr: 'Aime la chaleur, serre recommandée', es: 'Amante del calor, se recomienda invernadero' }
+        }
     },
-    'Cherrytomaten': {
-        displayName: {nl: 'Cherrytomaten (Dwergras)', en: 'Cherry Tomatoes (Dwarf)', de: 'Cherrytomaten (Zwerg)', fr: 'Tomates cerises (naines)', es: 'Tomates cherry (enanos)'},
-        schedule: { targetHarvestWeek: 14, hasFruiting: true, fruitingStartWeek: 8 },
-        info: { light: '16–18u/dag', cycle: '10–14 weken tot eerste oogst', nutrition: 'Matige tot hoge voeding.', tips: 'Heeft ondersteuning nodig (stok of kooi).' }
+    'Courgette': {
+        displayName: { nl: 'Courgette', en: 'Zucchini', de: 'Zucchini', fr: 'Courgette', es: 'Calabacín' },
+        schedule: { targetHarvestWeek: 32, hasFruiting: true, fruitingStartWeek: 20 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Veel compost, stikstof', en: 'Lots of compost, nitrogen', de: 'Viel Kompost, Stickstoff', fr: 'Beaucoup de compost, azote', es: 'Mucho compost, nitrógeno' },
+            tips: { nl: 'Oogst jong voor beste smaak', en: 'Harvest young for the best taste', de: 'Jung ernten für besten Geschmack', fr: 'Récolter jeune pour le meilleur goût', es: 'Cosechar joven para el mejor sabor' }
+        }
     },
-    'Paprika/Chili': {
-        displayName: {nl: 'Paprika / Chili Pepers (Compact)', en: 'Peppers / Chilies (Compact)', de: 'Paprika / Chilis (kompakt)', fr: 'Poivrons / Piments (compacts)', es: 'Pimientos / Chiles (compactos)'},
-        schedule: { targetHarvestWeek: 16, hasFruiting: true, fruitingStartWeek: 9 },
-        info: { light: '16–18u/dag', cycle: '12–16+ weken tot eerste vrucht', nutrition: 'Matige tot hoge voeding. Heeft vaak extra Calcium/Magnesium nodig.', tips: 'Toppen kan zorgen voor een bossigere plant en meer vruchten.' }
+    'Sla': {
+        displayName: { nl: 'Sla', en: 'Lettuce', de: 'Salat', fr: 'Laitue', es: 'Lechuga' },
+        schedule: { targetHarvestWeek: 26, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon–zon', en: 'Part sun to sun', de: 'Halbsonne–Sonne', fr: 'Mi-ombre–soleil', es: 'Semisombra a sol' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Matige voeding, stikstof', en: 'Moderate nutrition, nitrogen', de: 'Mäßige Düngung, Stickstoff', fr: 'Nutrition modérée, azote', es: 'Nutrición moderada, nitrógeno' },
+            tips: { nl: 'Regelmatig zaaien voor spreiding', en: 'Sow regularly for staggered harvest', de: 'Regelmäßig aussäen zur Streuung', fr: 'Semer régulièrement pour échelonner', es: 'Sembrar regularmente para escalonar la cosecha' }
+        }
     },
-    'Dwergkomkommers': {
-        displayName: {nl: 'Dwergkomkommers', en: 'Dwarf Cucumbers', de: 'Zwerggurken', fr: 'Concombres nains', es: 'Pepinos enanos'},
-        schedule: { targetHarvestWeek: 10, hasFruiting: true, fruitingStartWeek: 6 },
-        info: { light: '16–18u/dag', cycle: '8–10+ weken tot oogst', nutrition: 'Matige tot hoge voeding.', tips: 'Klimplant, heeft een rek of latwerk nodig om tegenop te groeien.' }
+    'Spinazie': {
+        displayName: { nl: 'Spinazie', en: 'Spinach', de: 'Spinat', fr: 'Épinards', es: 'Espinacas' },
+        schedule: { targetHarvestWeek: 24, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon', en: 'Part sun', de: 'Halbsonne', fr: 'Mi-ombre', es: 'Semisombra' },
+            cycle: { nl: 'Voorjaar/herfst', en: 'Spring/autumn', de: 'Frühling/Herbst', fr: 'Printemps/automne', es: 'Primavera/otoño' },
+            nutrition: { nl: 'Stikstofrijk, vochtvasthoudend', en: 'Nitrogen-rich, moisture-retentive', de: 'Stickstoffreich, feuchtigkeitsspeichernd', fr: 'Riche en azote, retenant l\'humidité', es: 'Rico en nitrógeno, retiene la humedad' },
+            tips: { nl: 'Vermijd zomerteelt (schiet snel)', en: 'Avoid summer cultivation (bolts quickly)', de: 'Sommeranbau vermeiden (schießt schnell)', fr: 'Éviter la culture d\'été (monte vite en graine)', es: 'Evitar el cultivo de verano (se espiga rápidamente)' }
+        }
     },
-     'Dwergcitrus': {
-        displayName: {nl: 'Dwergcitrus', en: 'Dwarf Citrus', de: 'Zwergzitrus', fr: 'Agrumes nains', es: 'Cítricos enanos'},
-        schedule: { targetHarvestWeek: 24, hasFruiting: true, fruitingStartWeek: 16 },
-        info: { light: '14–16u/dag (fel licht)', cycle: 'Meerdere maanden; dit is een langetermijnproject.', nutrition: 'Lichte en regelmatige voeding.', tips: 'Geduld is essentieel. Kan met de hand bestoven worden voor betere vruchtzetting.' }
+    'Radijs': {
+        displayName: { nl: 'Radijs', en: 'Radish', de: 'Radieschen', fr: 'Radis', es: 'Rábano' },
+        schedule: { targetHarvestWeek: 22, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Weinig voeding nodig', en: 'Little nutrition needed', de: 'Wenig Düngung nötig', fr: 'Peu de nutrition nécessaire', es: 'Poca nutrición necesaria' },
+            tips: { nl: 'Snelle groeier, ideaal voor kids', en: 'Fast grower, ideal for kids', de: 'Schnellwüchsig, ideal für Kinder', fr: 'Croissance rapide, idéal pour les enfants', es: 'Crecimiento rápido, ideal para niños' }
+        }
     },
-    'Champignons': {
-        displayName: {nl: 'Champignons / Oesterzwammen', en: 'Mushrooms / Oyster Mushrooms', de: 'Pilze / Austernpilze', fr: 'Champignons / Pleurotes', es: 'Champiñones / Setas de ostra'},
-        schedule: { targetHarvestWeek: 5, hasFruiting: false },
-        info: { light: 'Minimaal licht nodig', cycle: '2–5 weken per "vlucht" (oogstgolf)', nutrition: 'Geen voeding nodig, groeit op een substraatkit.', tips: 'Hoge luchtvochtigheid en goede luchtcirculatie zijn cruciaal.' }
+    'Wortel': {
+        displayName: { nl: 'Wortel', en: 'Carrot', de: 'Karotte', fr: 'Carotte', es: 'Zanahoria' },
+        schedule: { targetHarvestWeek: 30, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, losse grond', en: 'Potassium-rich, loose soil', de: 'Kaliumreich, lockerer Boden', fr: 'Riche en potassium, sol meuble', es: 'Rico en potasio, suelo suelto' },
+            tips: { nl: 'Niet verspenen, direct zaaien', en: 'Do not transplant, sow directly', de: 'Nicht verpflanzen, direkt säen', fr: 'Ne pas repiquer, semer directement', es: 'No trasplantar, sembrar directamente' }
+        }
+    },
+    'Uien': {
+        displayName: { nl: 'Uien', en: 'Onions', de: 'Zwiebeln', fr: 'Oignons', es: 'Cebollas' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kalium en fosfor', en: 'Potassium and phosphorus', de: 'Kalium und Phosphor', fr: 'Potassium et phosphore', es: 'Potasio y fósforo' },
+            tips: { nl: 'Goed voor combinatieteelt', en: 'Good for companion planting', de: 'Gut für Mischkultur', fr: 'Bon pour la culture associée', es: 'Bueno para la siembra asociada' }
+        }
+    },
+    'Knoflook': {
+        displayName: { nl: 'Knoflook', en: 'Garlic', de: 'Knoblauch', fr: 'Ail', es: 'Ajo' },
+        schedule: { targetHarvestWeek: 32, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Winter–zomer', en: 'Winter–summer', de: 'Winter–Sommer', fr: 'Hiver–été', es: 'Invierno–verano' },
+            nutrition: { nl: 'Fosforrijk, goed gedraineerde grond', en: 'Phosphorus-rich, well-drained soil', de: 'Phosphorreich, gut durchlässiger Boden', fr: 'Riche en phosphore, sol bien drainé', es: 'Rico en fósforo, suelo bien drenado' },
+            tips: { nl: 'Plant in herfst voor grote bollen', en: 'Plant in autumn for large bulbs', de: 'Im Herbst für große Knollen pflanzen', fr: 'Planter en automne pour de gros bulbes', es: 'Plantar en otoño para bulbos grandes' }
+        }
+    },
+    'Boontjes': {
+        displayName: { nl: 'Boontjes', en: 'Beans', de: 'Bohnen', fr: 'Haricots', es: 'Judías' },
+        schedule: { targetHarvestWeek: 30, hasFruiting: true, fruitingStartWeek: 20 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Stikstofbindend, matige voeding', en: 'Nitrogen-fixing, moderate nutrition', de: 'Stickstoffbindend, mäßige Düngung', fr: 'Fixateur d\'azote, nutrition modérée', es: 'Fijador de nitrógeno, nutrición moderada' },
+            tips: { nl: 'Oogst regelmatig voor doorproductie', en: 'Harvest regularly for continuous production', de: 'Regelmäßig für Dauerproduktion ernten', fr: 'Récolter régulièrement pour une production continue', es: 'Cosechar regularmente para una producción continua' }
+        }
+    },
+    'Erwten': {
+        displayName: { nl: 'Erwten', en: 'Peas', de: 'Erbsen', fr: 'Pois', es: 'Guisantes' },
+        schedule: { targetHarvestWeek: 28, hasFruiting: true, fruitingStartWeek: 18 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Fosforrijk, goed gedraineerde grond', en: 'Phosphorus-rich, well-drained soil', de: 'Phosphorreich, gut durchlässiger Boden', fr: 'Riche en phosphore, sol bien drainé', es: 'Rico en fósforo, suelo bien drenado' },
+            tips: { nl: 'Gebruik netten tegen vogels', en: 'Use nets against birds', de: 'Netze gegen Vögel verwenden', fr: 'Utiliser des filets contre les oiseaux', es: 'Usar redes contra los pájaros' }
+        }
+    },
+    'Rucola': {
+        displayName: { nl: 'Rucola', en: 'Arugula', de: 'Rucola', fr: 'Roquette', es: 'Rúcula' },
+        schedule: { targetHarvestWeek: 24, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon', en: 'Part sun', de: 'Halbsonne', fr: 'Mi-ombre', es: 'Semisombra' },
+            cycle: { nl: 'Voorjaar/herfst', en: 'Spring/autumn', de: 'Frühling/Herbst', fr: 'Printemps/automne', es: 'Primavera/otoño' },
+            nutrition: { nl: 'Weinig voeding nodig', en: 'Little nutrition needed', de: 'Wenig Düngung nötig', fr: 'Peu de nutrition nécessaire', es: 'Poca nutrición necesaria' },
+            tips: { nl: 'Snelle groeier, pittig blad', en: 'Fast grower, spicy leaves', de: 'Schnellwüchsig, würziges Blatt', fr: 'Croissance rapide, feuille piquante', es: 'Crecimiento rápido, hoja picante' }
+        }
+    },
+    'Rode biet': {
+        displayName: { nl: 'Rode biet', en: 'Beetroot', de: 'Rote Bete', fr: 'Betterave', es: 'Remolacha' },
+        schedule: { targetHarvestWeek: 30, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Loof ook eetbaar', en: 'Leaves are also edible', de: 'Blätter auch essbar', fr: 'Les feuilles sont aussi comestibles', es: 'Las hojas también son comestibles' }
+        }
+    },
+    'Prei': {
+        displayName: { nl: 'Prei', en: 'Leek', de: 'Lauch', fr: 'Poireau', es: 'Puerro' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Stikstofrijk, compost', en: 'Nitrogen-rich, compost', de: 'Stickstoffreich, Kompost', fr: 'Riche en azote, compost', es: 'Rico en nitrógeno, compost' },
+            tips: { nl: 'Aanaarden voor witte schacht', en: 'Earth up for a white shaft', de: 'Anhäufeln für weißen Schaft', fr: 'Butter pour un fût blanc', es: 'Aporcar para un tallo blanco' }
+        }
+    },
+    'Kool': {
+        displayName: { nl: 'Kool', en: 'Cabbage', de: 'Kohl', fr: 'Chou', es: 'Col' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Veel voeding, kalkrijk', en: 'Heavy feeder, lime-rich soil', de: 'Viel Düngung, kalkreich', fr: 'Très gourmand, sol calcaire', es: 'Mucha nutrición, suelo calcáreo' },
+            tips: { nl: 'Bescherm tegen koolwitje', en: 'Protect against cabbage white butterfly', de: 'Vor Kohlweißling schützen', fr: 'Protéger contre la piéride du chou', es: 'Proteger contra la mariposa de la col' }
+        }
+    },
+    'Broccoli': {
+        displayName: { nl: 'Broccoli', en: 'Broccoli', de: 'Brokkoli', fr: 'Brocoli', es: 'Brócoli' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Stikstofrijk, vochtvasthoudend', en: 'Nitrogen-rich, moisture-retentive', de: 'Stickstoffreich, feuchtigkeitsspeichernd', fr: 'Riche en azote, retenant l\'humidité', es: 'Rico en nitrógeno, retiene la humedad' },
+            tips: { nl: 'Oogst centrale roos tijdig', en: 'Harvest central head promptly', de: 'Zentrale Rose rechtzeitig ernten', fr: 'Récolter la tête centrale à temps', es: 'Cosechar la cabeza central a tiempo' }
+        }
+    },
+    'Bloemkool': {
+        displayName: { nl: 'Bloemkool', en: 'Cauliflower', de: 'Blumenkohl', fr: 'Chou-fleur', es: 'Coliflor' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Veel voeding, kalkrijk', en: 'Heavy feeder, lime-rich soil', de: 'Viel Düngung, kalkreich', fr: 'Très gourmand, sol calcaire', es: 'Mucha nutrición, suelo calcáreo' },
+            tips: { nl: 'Bescherm tegen zonverkleuring', en: 'Protect from sun discoloration', de: 'Vor Sonnenverfärbung schützen', fr: 'Protéger de la décoloration au soleil', es: 'Proteger de la decoloración por el sol' }
+        }
+    },
+    'Andijvie': {
+        displayName: { nl: 'Andijvie', en: 'Endive', de: 'Endivie', fr: 'Endive', es: 'Endibia' },
+        schedule: { targetHarvestWeek: 34, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Matige voeding, stikstof', en: 'Moderate nutrition, nitrogen', de: 'Mäßige Düngung, Stickstoff', fr: 'Nutrition modérée, azote', es: 'Nutrición moderada, nitrógeno' },
+            tips: { nl: 'Bleken voor mildere smaak', en: 'Blanch for a milder taste', de: 'Bleichen für milderen Geschmack', fr: 'Blanchir pour un goût plus doux', es: 'Blanquear para un sabor más suave' }
+        }
+    },
+    'Paksoi': {
+        displayName: { nl: 'Paksoi', en: 'Pak Choi', de: 'Pak Choi', fr: 'Pak Choï', es: 'Pak Choi' },
+        schedule: { targetHarvestWeek: 28, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon', en: 'Part sun', de: 'Halbsonne', fr: 'Mi-ombre', es: 'Semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Stikstofrijk, vochtvasthoudend', en: 'Nitrogen-rich, moisture-retentive', de: 'Stickstoffreich, feuchtigkeitsspeichernd', fr: 'Riche en azote, retenant l\'humidité', es: 'Rico en nitrógeno, retiene la humedad' },
+            tips: { nl: 'Snelle groeier, schiet snel', en: 'Fast grower, bolts quickly', de: 'Schnellwüchsig, schießt schnell', fr: 'Croissance rapide, monte vite en graine', es: 'Crecimiento rápido, se espiga rápidamente' }
+        }
+    },
+    'Snijbiet': {
+        displayName: { nl: 'Snijbiet', en: 'Chard', de: 'Mangold', fr: 'Blette', es: 'Acelga' },
+        schedule: { targetHarvestWeek: 32, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Matige voeding, stikstof', en: 'Moderate nutrition, nitrogen', de: 'Mäßige Düngung, Stickstoff', fr: 'Nutrition modérée, azote', es: 'Nutrición moderada, nitrógeno' },
+            tips: { nl: 'Blad blijft doorgroeien bij oogst', en: 'Leaves keep growing after harvest', de: 'Blätter wachsen nach der Ernte weiter', fr: 'Les feuilles continuent de pousser après la récolte', es: 'Las hojas siguen creciendo después de la cosecha' }
+        }
+    },
+    'Aubergine': {
+        displayName: { nl: 'Aubergine', en: 'Eggplant', de: 'Aubergine', fr: 'Aubergine', es: 'Berenjena' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, warmteminnend', en: 'Potassium-rich, heat-loving', de: 'Kaliumreich, wärmeliebend', fr: 'Riche en potassium, aime la chaleur', es: 'Rico en potasio, amante del calor' },
+            tips: { nl: 'Kas aanbevolen, gevoelig voor kou', en: 'Greenhouse recommended, sensitive to cold', de: 'Gewächshaus empfohlen, kälteempfindlich', fr: 'Serre recommandée, sensible au froid', es: 'Se recomienda invernadero, sensible al frío' }
+        }
+    },
+    'Pompoen': {
+        displayName: { nl: 'Pompoen', en: 'Pumpkin', de: 'Kürbis', fr: 'Potiron', es: 'Calabaza' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Veel compost, stikstof', en: 'Lots of compost, nitrogen', de: 'Viel Kompost, Stickstoff', fr: 'Beaucoup de compost, azote', es: 'Mucho compost, nitrógeno' },
+            tips: { nl: 'Geef ruimte, bestuiving cruciaal', en: 'Give it space, pollination is crucial', de: 'Platz geben, Bestäubung entscheidend', fr: 'Donner de l\'espace, pollinisation cruciale', es: 'Darle espacio, la polinización es crucial' }
+        }
+    },
+    'Chilipeper': {
+        displayName: { nl: 'Chilipeper', en: 'Chili Pepper', de: 'Chilischote', fr: 'Piment', es: 'Chile' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosfor en kalium', en: 'Phosphorus and potassium', de: 'Phosphor und Kalium', fr: 'Phosphore et potassium', es: 'Fósforo y potasio' },
+            tips: { nl: 'Binnen opkweek, kas of vensterbank', en: 'Start indoors, greenhouse or windowsill', de: 'Drinnen vorziehen, Gewächshaus oder Fensterbank', fr: 'Démarrer à l\'intérieur, serre ou rebord de fenêtre', es: 'Empezar en interior, invernadero o alféizar' }
+        }
+    },
+    'Tuinkers': {
+        displayName: { nl: 'Tuinkers', en: 'Garden Cress', de: 'Gartenkresse', fr: 'Cresson', es: 'Berro de jardín' },
+        schedule: { targetHarvestWeek: 16, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon', en: 'Part sun', de: 'Halbsonne', fr: 'Mi-ombre', es: 'Semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Weinig voeding nodig', en: 'Little nutrition needed', de: 'Wenig Düngung nötig', fr: 'Peu de nutrition nécessaire', es: 'Poca nutrición necesaria' },
+            tips: { nl: 'Ideaal voor kinderen, snel klaar', en: 'Ideal for kids, ready quickly', de: 'Ideal für Kinder, schnell fertig', fr: 'Idéal pour les enfants, prêt rapidement', es: 'Ideal para niños, listo rápidamente' }
+        }
+    },
+    'Schorseneren': {
+        displayName: { nl: 'Schorseneren', en: 'Salsify', de: 'Schwarzwurzel', fr: 'Salsifis', es: 'Salsifí' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst/winter', en: 'Autumn/winter', de: 'Herbst/Winter', fr: 'Automne/hiver', es: 'Otoño/invierno' },
+            nutrition: { nl: 'Kaliumrijk, diepe losse grond', en: 'Potassium-rich, deep loose soil', de: 'Kaliumreich, tiefer lockerer Boden', fr: 'Riche en potassium, sol profond et meuble', es: 'Rico en potasio, suelo profundo y suelto' },
+            tips: { nl: 'Moeilijk te oogsten, maar uniek', en: 'Difficult to harvest, but unique', de: 'Schwer zu ernten, aber einzigartig', fr: 'Difficile à récolter, mais unique', es: 'Difícil de cosechar, pero único' }
+        }
+    },
+    'Pastinaak': {
+        displayName: { nl: 'Pastinaak', en: 'Parsnip', de: 'Pastinake', fr: 'Panais', es: 'Chirivía' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst/winter', en: 'Autumn/winter', de: 'Herbst/Winter', fr: 'Automne/hiver', es: 'Otoño/invierno' },
+            nutrition: { nl: 'Kaliumrijk, zoeter na vorst', en: 'Potassium-rich, sweeter after frost', de: 'Kaliumreich, süßer nach Frost', fr: 'Riche en potassium, plus sucré après le gel', es: 'Rico en potasio, más dulce después de las heladas' },
+            tips: { nl: 'Lange teeltduur, geduld vereist', en: 'Long growing season, patience required', de: 'Lange Kulturdauer, Geduld erforderlich', fr: 'Longue saison de croissance, patience requise', es: 'Larga temporada de cultivo, requiere paciencia' }
+        }
+    },
+    'Koolrabi': {
+        displayName: { nl: 'Koolrabi', en: 'Kohlrabi', de: 'Kohlrabi', fr: 'Chou-rave', es: 'Colinabo' },
+        schedule: { targetHarvestWeek: 30, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Matige voeding, stikstof', en: 'Moderate nutrition, nitrogen', de: 'Mäßige Düngung, Stickstoff', fr: 'Nutrition modérée, azote', es: 'Nutrición moderada, nitrógeno' },
+            tips: { nl: 'Oogst jong voor knapperigheid', en: 'Harvest young for crispness', de: 'Jung für Knackigkeit ernten', fr: 'Récolter jeune pour le croquant', es: 'Cosechar joven para que esté crujiente' }
+        }
+    },
+    'Chinese kool': {
+        displayName: { nl: 'Chinese kool', en: 'Napa Cabbage', de: 'Chinakohl', fr: 'Chou chinois', es: 'Col china' },
+        schedule: { targetHarvestWeek: 32, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon', en: 'Part sun', de: 'Halbsonne', fr: 'Mi-ombre', es: 'Semisombra' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Stikstofrijk, vochtvasthoudend', en: 'Nitrogen-rich, moisture-retentive', de: 'Stickstoffreich, feuchtigkeitsspeichernd', fr: 'Riche en azote, retenant l\'humidité', es: 'Rico en nitrógeno, retiene la humedad' },
+            tips: { nl: 'Bescherm tegen schieten', en: 'Protect from bolting', de: 'Vor dem Schießen schützen', fr: 'Protéger de la montée en graine', es: 'Proteger del espigado' }
+        }
+    },
+    'Zoete aardappel': {
+        displayName: { nl: 'Zoete aardappel', en: 'Sweet Potato', de: 'Süßkartoffel', fr: 'Patate douce', es: 'Batata' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, goed gedraineerde grond', en: 'Potassium-rich, well-drained soil', de: 'Kaliumreich, gut durchlässiger Boden', fr: 'Riche en potassium, sol bien drainé', es: 'Rico en potasio, suelo bien drenado' },
+            tips: { nl: 'Warmteminnend, potcultuur mogelijk', en: 'Heat-loving, container growing possible', de: 'Wärmeliebend, Topfkultur möglich', fr: 'Aime la chaleur, culture en pot possible', es: 'Amante del calor, posible cultivo en maceta' }
+        }
+    },
+    'Okra': {
+        displayName: { nl: 'Okra', en: 'Okra', de: 'Okra', fr: 'Okra', es: 'Okra' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Warmteminnend, stikstofrijk', en: 'Heat-loving, nitrogen-rich', de: 'Wärmeliebend, stickstoffreich', fr: 'Aime la chaleur, riche en azote', es: 'Amante del calor, rico en nitrógeno' },
+            tips: { nl: 'Kas aanbevolen, snel oogsten', en: 'Greenhouse recommended, harvest quickly', de: 'Gewächshaus empfohlen, schnell ernten', fr: 'Serre recommandée, récolter rapidement', es: 'Se recomienda invernadero, cosechar rápidamente' }
+        }
+    },
+    'Melde': {
+        displayName: { nl: 'Melde', en: 'Orach', de: 'Gartenmelde', fr: 'Arroche', es: 'Armuelle' },
+        schedule: { targetHarvestWeek: 28, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Matige voeding, alternatief voor spinazie', en: 'Moderate nutrition, spinach alternative', de: 'Mäßige Düngung, Alternative zu Spinat', fr: 'Nutrition modérée, alternative aux épinards', es: 'Nutrición moderada, alternativa a las espinacas' },
+            tips: { nl: 'Kleurrijk blad, decoratief', en: 'Colorful leaves, decorative', de: 'Farbenfrohes Blatt, dekorativ', fr: 'Feuilles colorées, décoratives', es: 'Hojas coloridas, decorativas' }
+        }
+    },
+    'Raapstelen': {
+        displayName: { nl: 'Raapstelen', en: 'Turnip Greens', de: 'Stielmus', fr: 'Navets verts', es: 'Hojas de nabo' },
+        schedule: { targetHarvestWeek: 24, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Voorjaar', en: 'Spring', de: 'Frühling', fr: 'Printemps', es: 'Primavera' },
+            nutrition: { nl: 'Weinig voeding nodig', en: 'Little nutrition needed', de: 'Wenig Düngung nötig', fr: 'Peu de nutrition nécessaire', es: 'Poca nutrición necesaria' },
+            tips: { nl: 'Snelle groeier, jong oogsten', en: 'Fast grower, harvest young', de: 'Schnellwüchsig, jung ernten', fr: 'Croissance rapide, récolter jeune', es: 'Crecimiento rápido, cosechar joven' }
+        }
+    },
+    'Zuring': {
+        displayName: { nl: 'Zuring', en: 'Sorrel', de: 'Sauerampfer', fr: 'Oseille', es: 'Acedera' },
+        schedule: { targetHarvestWeek: 26, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon', en: 'Part sun', de: 'Halbsonne', fr: 'Mi-ombre', es: 'Semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Matige voeding, vochtvasthoudend', en: 'Moderate nutrition, moisture-retentive', de: 'Mäßige Düngung, feuchtigkeitsspeichernd', fr: 'Nutrition modérée, retenant l\'humidité', es: 'Nutrición moderada, retiene la humedad' },
+            tips: { nl: 'Friszuur blad, goed in salades', en: 'Tangy leaves, good in salads', de: 'Frisch-säuerliches Blatt, gut in Salaten', fr: 'Feuilles acidulées, bonnes en salade', es: 'Hojas ácidas, buenas en ensaladas' }
+        }
+    },
+    'Kervel': {
+        displayName: { nl: 'Kervel', en: 'Chervil', de: 'Kerbel', fr: 'Cerfeuil', es: 'Perifollo' },
+        schedule: { targetHarvestWeek: 24, hasFruiting: false },
+        info: {
+            light: { nl: 'Halfzon', en: 'Part sun', de: 'Halbsonne', fr: 'Mi-ombre', es: 'Semisombra' },
+            cycle: { nl: 'Voorjaar', en: 'Spring', de: 'Frühling', fr: 'Printemps', es: 'Primavera' },
+            nutrition: { nl: 'Weinig voeding nodig', en: 'Little nutrition needed', de: 'Wenig Düngung nötig', fr: 'Peu de nutrition nécessaire', es: 'Poca nutrición necesaria' },
+            tips: { nl: 'Fijn blad, snel schietend', en: 'Fine leaves, bolts quickly', de: 'Feines Blatt, schießt schnell', fr: 'Feuilles fines, monte vite en graine', es: 'Hojas finas, se espiga rápidamente' }
+        }
+    },
+    'Peterselie': {
+        displayName: { nl: 'Peterselie', en: 'Parsley', de: 'Petersilie', fr: 'Persil', es: 'Perejil' },
+        schedule: { targetHarvestWeek: 32, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Matige voeding, stikstof', en: 'Moderate nutrition, nitrogen', de: 'Mäßige Düngung, Stickstoff', fr: 'Nutrition modérée, azote', es: 'Nutrición moderada, nitrógeno' },
+            tips: { nl: 'Langzame kiemer, geduld vereist', en: 'Slow to germinate, patience required', de: 'Langsamer Keimer, Geduld erforderlich', fr: 'Germination lente, patience requise', es: 'Lento para germinar, requiere paciencia' }
+        }
+    },
+    'Dille': {
+        displayName: { nl: 'Dille', en: 'Dill', de: 'Dill', fr: 'Aneth', es: 'Eneldo' },
+        schedule: { targetHarvestWeek: 28, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Weinig voeding nodig', en: 'Little nutrition needed', de: 'Wenig Düngung nötig', fr: 'Peu de nutrition nécessaire', es: 'Poca nutrición necesaria' },
+            tips: { nl: 'Goed voor combinatieteelt', en: 'Good for companion planting', de: 'Gut für Mischkultur', fr: 'Bon pour la culture associée', es: 'Bueno para la siembra asociada' }
+        }
+    },
+    'Basilicum': {
+        displayName: { nl: 'Basilicum', en: 'Basil', de: 'Basilikum', fr: 'Basilic', es: 'Albahaca' },
+        schedule: { targetHarvestWeek: 30, hasFruiting: false },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosforrijk, goed gedraineerde grond', en: 'Phosphorus-rich, well-drained soil', de: 'Phosphorreich, gut durchlässiger Boden', fr: 'Riche en phosphore, sol bien drainé', es: 'Rico en fósforo, suelo bien drenado' },
+            tips: { nl: 'Niet tegen kou, binnen opkweek', en: 'Dislikes cold, start indoors', de: 'Mag keine Kälte, drinnen vorziehen', fr: 'N\'aime pas le froid, démarrer à l\'intérieur', es: 'No le gusta el frío, empezar en interior' }
+        }
+    },
+    'Tijm': {
+        displayName: { nl: 'Tijm', en: 'Thyme', de: 'Thymian', fr: 'Thym', es: 'Tomillo' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: false },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/permanent', en: 'Summer/perennial', de: 'Sommer/mehrjährig', fr: 'Été/vivace', es: 'Verano/perenne' },
+            nutrition: { nl: 'Weinig voeding, droge grond', en: 'Little nutrition, dry soil', de: 'Wenig Düngung, trockener Boden', fr: 'Peu de nutrition, sol sec', es: 'Poca nutrición, suelo seco' },
+            tips: { nl: 'Winterhard, houtachtig', en: 'Hardy, woody', de: 'Winterhart, holzig', fr: 'Rustique, ligneux', es: 'Resistente, leñoso' }
+        }
+    },
+    'Rozemarijn': {
+        displayName: { nl: 'Rozemarijn', en: 'Rosemary', de: 'Rosmarin', fr: 'Romarin', es: 'Romero' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: false },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/permanent', en: 'Summer/perennial', de: 'Sommer/mehrjährig', fr: 'Été/vivace', es: 'Verano/perenne' },
+            nutrition: { nl: 'Weinig voeding, kalkrijk', en: 'Little nutrition, lime-rich soil', de: 'Wenig Düngung, kalkreich', fr: 'Peu de nutrition, sol calcaire', es: 'Poca nutrición, suelo calcáreo' },
+            tips: { nl: 'In pot overwinteren bij vorst', en: 'Overwinter in a pot during frost', de: 'Im Topf bei Frost überwintern', fr: 'Hiverner en pot en cas de gel', es: 'Invernar en maceta durante las heladas' }
+        }
+    },
+    'Oregano': {
+        displayName: { nl: 'Oregano', en: 'Oregano', de: 'Oregano', fr: 'Origan', es: 'Orégano' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: false },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/permanent', en: 'Summer/perennial', de: 'Sommer/mehrjährig', fr: 'Été/vivace', es: 'Verano/perenne' },
+            nutrition: { nl: 'Weinig voeding, droge grond', en: 'Little nutrition, dry soil', de: 'Wenig Düngung, trockener Boden', fr: 'Peu de nutrition, sol sec', es: 'Poca nutrición, suelo seco' },
+            tips: { nl: 'Goed voor balkon, aromatisch', en: 'Good for balconies, aromatic', de: 'Gut für Balkon, aromatisch', fr: 'Bon pour le balcon, aromatique', es: 'Bueno para balcones, aromático' }
+        }
+    },
+    'Salie': {
+        displayName: { nl: 'Salie', en: 'Sage', de: 'Salbei', fr: 'Sauge', es: 'Salvia' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: false },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/permanent', en: 'Summer/perennial', de: 'Sommer/mehrjährig', fr: 'Été/vivace', es: 'Verano/perenne' },
+            nutrition: { nl: 'Kalkrijk, matige voeding', en: 'Lime-rich soil, moderate nutrition', de: 'Kalkreich, mäßige Düngung', fr: 'Sol calcaire, nutrition modérée', es: 'Suelo calcáreo, nutrición moderada' },
+            tips: { nl: 'Winterhard, houtachtig', en: 'Hardy, woody', de: 'Winterhart, holzig', fr: 'Rustique, ligneux', es: 'Resistente, leñoso' }
+        }
+    },
+    'Bieslook': {
+        displayName: { nl: 'Bieslook', en: 'Chives', de: 'Schnittlauch', fr: 'Ciboulette', es: 'Cebollino' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer/permanent', en: 'Summer/perennial', de: 'Sommer/mehrjährig', fr: 'Été/vivace', es: 'Verano/perenne' },
+            nutrition: { nl: 'Matige voeding, stikstof', en: 'Moderate nutrition, nitrogen', de: 'Mäßige Düngung, Stickstoff', fr: 'Nutrition modérée, azote', es: 'Nutrición moderada, nitrógeno' },
+            tips: { nl: 'Snij regelmatig voor hergroei', en: 'Cut regularly for regrowth', de: 'Regelmäßig für Nachwachsen schneiden', fr: 'Couper régulièrement pour la repousse', es: 'Cortar regularmente para que vuelva a crecer' }
+        }
+    },
+    'Venkel': {
+        displayName: { nl: 'Venkel', en: 'Fennel', de: 'Fenchel', fr: 'Fenouil', es: 'Hinojo' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, goed gedraineerde grond', en: 'Potassium-rich, well-drained soil', de: 'Kaliumreich, gut durchlässiger Boden', fr: 'Riche en potassium, sol bien drainé', es: 'Rico en potasio, suelo bien drenado' },
+            tips: { nl: 'Loof ook eetbaar', en: 'Fronds are also edible', de: 'Blätter auch essbar', fr: 'Les feuilles sont aussi comestibles', es: 'Las hojas también son comestibles' }
+        }
+    },
+    'Artisjok': {
+        displayName: { nl: 'Artisjok', en: 'Artichoke', de: 'Artischocke', fr: 'Artichaut', es: 'Alcachofa' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Meerjarig', en: 'Perennial', de: 'Mehrjährig', fr: 'Vivace', es: 'Perenne' },
+            nutrition: { nl: 'Fosforrijk, veel compost', en: 'Phosphorus-rich, lots of compost', de: 'Phosphorreich, viel Kompost', fr: 'Riche en phosphore, beaucoup de compost', es: 'Rico en fósforo, mucho compost' },
+            tips: { nl: 'Geduld vereist, decoratief', en: 'Patience required, decorative', de: 'Geduld erforderlich, dekorativ', fr: 'Patience requise, décoratif', es: 'Requiere paciencia, decorativa' }
+        }
+    },
+    'Asperge': {
+        displayName: { nl: 'Asperge', en: 'Asparagus', de: 'Spargel', fr: 'Asperge', es: 'Espárrago' },
+        schedule: { targetHarvestWeek: 28, hasFruiting: false },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Meerjarig', en: 'Perennial', de: 'Mehrjährig', fr: 'Vivace', es: 'Perenne' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Eerste jaar niet oogsten', en: 'Do not harvest the first year', de: 'Im ersten Jahr nicht ernten', fr: 'Ne pas récolter la première année', es: 'No cosechar el primer año' }
+        }
+    },
+    'Maïs': {
+        displayName: { nl: 'Maïs', en: 'Corn', de: 'Mais', fr: 'Maïs', es: 'Maíz' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Stikstofrijk, veel water', en: 'Nitrogen-rich, needs lots of water', de: 'Stickstoffreich, viel Wasser', fr: 'Riche en azote, beaucoup d\'eau', es: 'Rico en nitrógeno, mucha agua' },
+            tips: { nl: 'Plant in blokken voor bestuiving', en: 'Plant in blocks for pollination', de: 'In Blöcken für Bestäubung pflanzen', fr: 'Planter en blocs pour la pollinisation', es: 'Plantar en bloques para la polinización' }
+        }
+    },
+    'Peultjes': {
+        displayName: { nl: 'Peultjes', en: 'Snow Peas', de: 'Zuckerschoten', fr: 'Pois mange-tout', es: 'Tirabeques' },
+        schedule: { targetHarvestWeek: 28, hasFruiting: true, fruitingStartWeek: 18 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Fosforrijk, matige voeding', en: 'Phosphorus-rich, moderate nutrition', de: 'Phosphorreich, mäßige Düngung', fr: 'Riche en phosphore, nutrition modérée', es: 'Rico en fósforo, nutrición moderada' },
+            tips: { nl: 'Oogst jong voor zoete smaak', en: 'Harvest young for a sweet taste', de: 'Jung für süßen Geschmack ernten', fr: 'Récolter jeune pour un goût sucré', es: 'Cosechar joven para un sabor dulce' }
+        }
+    },
+    'Kikkererwt': {
+        displayName: { nl: 'Kikkererwt', en: 'Chickpea', de: 'Kichererbse', fr: 'Pois chiche', es: 'Garbanzo' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Droge grond, weinig voeding', en: 'Dry soil, little nutrition', de: 'Trockener Boden, wenig Düngung', fr: 'Sol sec, peu de nutrition', es: 'Suelo seco, poca nutrición' },
+            tips: { nl: 'Warmteminnend, kas aanbevolen', en: 'Heat-loving, greenhouse recommended', de: 'Wärmeliebend, Gewächshaus empfohlen', fr: 'Aime la chaleur, serre recommandée', es: 'Amante del calor, se recomienda invernadero' }
+        }
+    },
+    'Sojaboon': {
+        displayName: { nl: 'Sojaboon', en: 'Soybean', de: 'Sojabohne', fr: 'Soja', es: 'Soja' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Stikstofbindend, matige voeding', en: 'Nitrogen-fixing, moderate nutrition', de: 'Stickstoffbindend, mäßige Düngung', fr: 'Fixateur d\'azote, nutrition modérée', es: 'Fijador de nitrógeno, nutrición moderada' },
+            tips: { nl: 'Oogst jong voor edamame', en: 'Harvest young for edamame', de: 'Jung für Edamame ernten', fr: 'Récolter jeune pour l\'edamame', es: 'Cosechar joven para edamame' }
+        }
+    },
+    'Aardbei': {
+        displayName: { nl: 'Aardbei', en: 'Strawberry', de: 'Erdbeere', fr: 'Fraise', es: 'Fresa' },
+        schedule: { targetHarvestWeek: 30, hasFruiting: true, fruitingStartWeek: 20 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Hangpotten ideaal, regelmatig plukken', en: 'Hanging pots are ideal, pick regularly', de: 'Hängetöpfe ideal, regelmäßig pflücken', fr: 'Pots suspendus idéaux, cueillir régulièrement', es: 'Macetas colgantes ideales, recolectar regularmente' }
+        }
+    },
+    'Framboos': {
+        displayName: { nl: 'Framboos', en: 'Raspberry', de: 'Himbeere', fr: 'Framboise', es: 'Frambuesa' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Fosforrijk, goed gedraineerde grond', en: 'Phosphorus-rich, well-drained soil', de: 'Phosphorreich, gut durchlässiger Boden', fr: 'Riche en phosphore, sol bien drainé', es: 'Rico en fósforo, suelo bien drenado' },
+            tips: { nl: 'Zomer- en herfstvariëteiten combineren', en: 'Combine summer and autumn varieties', de: 'Sommer- und Herbstsorten kombinieren', fr: 'Combiner les variétés d\'été et d\'automne', es: 'Combinar variedades de verano y otoño' }
+        }
+    },
+    'Braam': {
+        displayName: { nl: 'Braam', en: 'Blackberry', de: 'Brombeere', fr: 'Mûre', es: 'Mora' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, veel compost', en: 'Potassium-rich, lots of compost', de: 'Kaliumreich, viel Kompost', fr: 'Riche en potassium, beaucoup de compost', es: 'Rico en potasio, mucho compost' },
+            tips: { nl: 'Doornloze rassen voor gemak', en: 'Thornless varieties for convenience', de: 'Dornenlose Sorten für Bequemlichkeit', fr: 'Variétés sans épines pour plus de facilité', es: 'Variedades sin espinas para mayor comodidad' }
+        }
+    },
+    'Blauwe bes': {
+        displayName: { nl: 'Blauwe bes', en: 'Blueberry', de: 'Blaubeere', fr: 'Myrtille', es: 'Arándano' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Zure grond, fosforrijk', en: 'Acidic soil, phosphorus-rich', de: 'Saurer Boden, phosphorreich', fr: 'Sol acide, riche en phosphore', es: 'Suelo ácido, rico en fósforo' },
+            tips: { nl: 'Potcultuur met turf aanbevolen', en: 'Pot culture with peat recommended', de: 'Topfkultur mit Torf empfohlen', fr: 'Culture en pot avec de la tourbe recommandée', es: 'Se recomienda el cultivo en maceta con turba' }
+        }
+    },
+    'Rode bes': {
+        displayName: { nl: 'Rode bes', en: 'Redcurrant', de: 'Rote Johannisbeere', fr: 'Groseille', es: 'Grosella roja' },
+        schedule: { targetHarvestWeek: 34, hasFruiting: true, fruitingStartWeek: 22 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Matige voeding, humusrijke grond', en: 'Moderate nutrition, humus-rich soil', de: 'Mäßige Düngung, humusreicher Boden', fr: 'Nutrition modérée, sol riche en humus', es: 'Nutrición moderada, suelo rico en humus' },
+            tips: { nl: 'Goed te combineren met framboos', en: 'Combines well with raspberry', de: 'Gut mit Himbeere zu kombinieren', fr: 'Se combine bien avec la framboise', es: 'Combina bien con la frambuesa' }
+        }
+    },
+    'Kruisbes': {
+        displayName: { nl: 'Kruisbes', en: 'Gooseberry', de: 'Stachelbeere', fr: 'Groseille à maquereau', es: 'Grosella espinosa' },
+        schedule: { targetHarvestWeek: 34, hasFruiting: true, fruitingStartWeek: 22 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, matige voeding', en: 'Potassium-rich, moderate nutrition', de: 'Kaliumreich, mäßige Düngung', fr: 'Riche en potassium, nutrition modérée', es: 'Rico en potasio, nutrición moderada' },
+            tips: { nl: 'Bescherm tegen meeldauw', en: 'Protect against mildew', de: 'Vor Mehltau schützen', fr: 'Protéger contre l\'oïdium', es: 'Proteger contra el mildiú' }
+        }
+    },
+    'Appel': {
+        displayName: { nl: 'Appel', en: 'Apple', de: 'Apfel', fr: 'Pomme', es: 'Manzana' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kalium en fosfor', en: 'Potassium and phosphorus', de: 'Kalium und Phosphor', fr: 'Potassium et phosphore', es: 'Potasio y fósforo' },
+            tips: { nl: 'Dwergvariëteiten voor kleine tuinen', en: 'Dwarf varieties for small gardens', de: 'Zwergsorten für kleine Gärten', fr: 'Variétés naines pour petits jardins', es: 'Variedades enanas para jardines pequeños' }
+        }
+    },
+    'Peer': {
+        displayName: { nl: 'Peer', en: 'Pear', de: 'Birne', fr: 'Poire', es: 'Pera' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Zelfbestuivende rassen aanbevolen', en: 'Self-pollinating varieties recommended', de: 'Selbstbestäubende Sorten empfohlen', fr: 'Variétés autofertiles recommandées', es: 'Se recomiendan variedades autopolinizantes' }
+        }
+    },
+    'Kers': {
+        displayName: { nl: 'Kers', en: 'Cherry', de: 'Kirsche', fr: 'Cerise', es: 'Cereza' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosforrijk, kalkrijke bodem', en: 'Phosphorus-rich, chalky soil', de: 'Phosphorreich, kalkreicher Boden', fr: 'Riche en phosphore, sol calcaire', es: 'Rico en fósforo, suelo calcáreo' },
+            tips: { nl: 'Zure kers beter voor kleine tuinen', en: 'Sour cherry is better for small gardens', de: 'Sauerkirsche besser für kleine Gärten', fr: 'La cerise acide est meilleure pour les petits jardins', es: 'La cereza ácida es mejor para jardines pequeños' }
+        }
+    },
+    'Pruim': {
+        displayName: { nl: 'Pruim', en: 'Plum', de: 'Pflaume', fr: 'Prune', es: 'Ciruela' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, matige voeding', en: 'Potassium-rich, moderate nutrition', de: 'Kaliumreich, mäßige Düngung', fr: 'Riche en potassium, nutrition modérée', es: 'Rico en potasio, nutrición moderada' },
+            tips: { nl: 'Compacte rassen voor potcultuur', en: 'Compact varieties for container growing', de: 'Kompakte Sorten für Topfkultur', fr: 'Variétés compactes pour la culture en pot', es: 'Variedades compactas para cultivo en maceta' }
+        }
+    },
+    'Druif': {
+        displayName: { nl: 'Druif', en: 'Grape', de: 'Traube', fr: 'Raisin', es: 'Uva' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, kalkrijke bodem', en: 'Potassium-rich, chalky soil', de: 'Kaliumreich, kalkreicher Boden', fr: 'Riche en potassium, sol calcaire', es: 'Rico en potasio, suelo calcáreo' },
+            tips: { nl: 'Leid langs pergola of muur', en: 'Train along a pergola or wall', de: 'An Pergola oder Mauer leiten', fr: 'Guider le long d\'une pergola ou d\'un mur', es: 'Guiar a lo largo de una pérgola o pared' }
+        }
+    },
+    'Perzik': {
+        displayName: { nl: 'Perzik', en: 'Peach', de: 'Pfirsich', fr: 'Pêche', es: 'Melocotón' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosforrijk, humusrijke grond', en: 'Phosphorus-rich, humus-rich soil', de: 'Phosphorreich, humusreicher Boden', fr: 'Riche en phosphore, sol riche en humus', es: 'Rico en fósforo, suelo rico en humus' },
+            tips: { nl: 'Dwergvariëteiten voor potcultuur', en: 'Dwarf varieties for container growing', de: 'Zwergsorten für Topfkultur', fr: 'Variétés naines pour la culture en pot', es: 'Variedades enanas para cultivo en maceta' }
+        }
+    },
+    'Nectarine': {
+        displayName: { nl: 'Nectarine', en: 'Nectarine', de: 'Nektarine', fr: 'Nectarine', es: 'Nectarina' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, goed gedraineerde grond', en: 'Potassium-rich, well-drained soil', de: 'Kaliumreich, gut durchlässiger Boden', fr: 'Riche en potassium, sol bien drainé', es: 'Rico en potasio, suelo bien drenado' },
+            tips: { nl: 'Gevoelig voor schimmel', en: 'Susceptible to fungus', de: 'Anfällig für Pilze', fr: 'Sensible aux champignons', es: 'Susceptible a los hongos' }
+        }
+    },
+    'Abrikoos': {
+        displayName: { nl: 'Abrikoos', en: 'Apricot', de: 'Aprikose', fr: 'Abricot', es: 'Albaricoque' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosforrijk, kalkrijke bodem', en: 'Phosphorus-rich, chalky soil', de: 'Phosphorreich, kalkreicher Boden', fr: 'Riche en phosphore, sol calcaire', es: 'Rico en fósforo, suelo calcáreo' },
+            tips: { nl: 'Warmteminnend, kas aanbevolen', en: 'Heat-loving, greenhouse recommended', de: 'Wärmeliebend, Gewächshaus empfohlen', fr: 'Aime la chaleur, serre recommandée', es: 'Amante del calor, se recomienda invernadero' }
+        }
+    },
+    'Meloen': {
+        displayName: { nl: 'Meloen', en: 'Melon', de: 'Melone', fr: 'Melon', es: 'Melón' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Veel compost, stikstof', en: 'Lots of compost, nitrogen', de: 'Viel Kompost, Stickstoff', fr: 'Beaucoup de compost, azote', es: 'Mucho compost, nitrógeno' },
+            tips: { nl: 'Kas aanbevolen, bestuiving nodig', en: 'Greenhouse recommended, pollination needed', de: 'Gewächshaus empfohlen, Bestäubung nötig', fr: 'Serre recommandée, pollinisation nécessaire', es: 'Se recomienda invernadero, necesita polinización' }
+        }
+    },
+    'Watermeloen': {
+        displayName: { nl: 'Watermeloen', en: 'Watermelon', de: 'Wassermelone', fr: 'Pastèque', es: 'Sandía' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Kleinere rassen voor potcultuur', en: 'Smaller varieties for container growing', de: 'Kleinere Sorten für Topfkultur', fr: 'Petites variétés pour la culture en pot', es: 'Variedades más pequeñas para cultivo en maceta' }
+        }
+    },
+    'Vijg': {
+        displayName: { nl: 'Vijg', en: 'Fig', de: 'Feige', fr: 'Figue', es: 'Higo' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Fosforrijk, kalkrijke bodem', en: 'Phosphorus-rich, chalky soil', de: 'Phosphorreich, kalkreicher Boden', fr: 'Riche en phosphore, sol calcaire', es: 'Rico en fósforo, suelo calcáreo' },
+            tips: { nl: 'In pot overwinteren bij vorst', en: 'Overwinter in a pot during frost', de: 'Im Topf bei Frost überwintern', fr: 'Hiverner en pot en cas de gel', es: 'Invernar en maceta durante las heladas' }
+        }
+    },
+    'Citroen': {
+        displayName: { nl: 'Citroen', en: 'Lemon', de: 'Zitrone', fr: 'Citron', es: 'Limón' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, goed gedraineerde grond', en: 'Potassium-rich, well-drained soil', de: 'Kaliumreich, gut durchlässiger Boden', fr: 'Riche en potassium, sol bien drainé', es: 'Rico en potasio, suelo bien drenado' },
+            tips: { nl: 'Binnen overwinteren, potcultuur', en: 'Overwinter indoors, container growing', de: 'Drinnen überwintern, Topfkultur', fr: 'Hiverner à l\'intérieur, culture en pot', es: 'Invernar en interior, cultivo en maceta' }
+        }
+    },
+    'Mandarijn': {
+        displayName: { nl: 'Mandarijn', en: 'Tangerine', de: 'Mandarine', fr: 'Mandarine', es: 'Mandarina' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosforrijk, humusrijke grond', en: 'Phosphorus-rich, humus-rich soil', de: 'Phosphorreich, humusreicher Boden', fr: 'Riche en phosphore, sol riche en humus', es: 'Rico en fósforo, suelo rico en humus' },
+            tips: { nl: 'Potcultuur, vorstgevoelig', en: 'Container growing, frost-sensitive', de: 'Topfkultur, frostempfindlich', fr: 'Culture en pot, sensible au gel', es: 'Cultivo en maceta, sensible a las heladas' }
+        }
+    },
+    'Limoen': {
+        displayName: { nl: 'Limoen', en: 'Lime', de: 'Limette', fr: 'Citron vert', es: 'Lima' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, goed gedraineerde grond', en: 'Potassium-rich, well-drained soil', de: 'Kaliumreich, gut durchlässiger Boden', fr: 'Riche en potassium, sol bien drainé', es: 'Rico en potasio, suelo bien drenado' },
+            tips: { nl: 'Tropisch, kas of binnen aanbevolen', en: 'Tropical, greenhouse or indoors recommended', de: 'Tropisch, Gewächshaus oder drinnen empfohlen', fr: 'Tropical, serre ou intérieur recommandé', es: 'Tropical, se recomienda invernadero o interior' }
+        }
+    },
+    'Kiwi': {
+        displayName: { nl: 'Kiwi', en: 'Kiwi', de: 'Kiwi', fr: 'Kiwi', es: 'Kiwi' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Zelfbestuivende rassen aanbevolen', en: 'Self-pollinating varieties recommended', de: 'Selbstbestäubende Sorten empfohlen', fr: 'Variétés autofertiles recommandées', es: 'Se recomiendan variedades autopolinizantes' }
+        }
+    },
+    'Goji bes': {
+        displayName: { nl: 'Goji bes', en: 'Goji Berry', de: 'Goji-Beere', fr: 'Baie de Goji', es: 'Baya de Goji' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Superfood, stikstofrijk', en: 'Superfood, nitrogen-rich', de: 'Superfood, stickstoffreich', fr: 'Superaliment, riche en azote', es: 'Superalimento, rico en nitrógeno' },
+            tips: { nl: 'Snoei jaarlijks voor vorm', en: 'Prune annually for shape', de: 'Jährlich für Form schneiden', fr: 'Tailler annuellement pour la forme', es: 'Podar anualmente para dar forma' }
+        }
+    },
+    'Jostabes': {
+        displayName: { nl: 'Jostabes', en: 'Jostaberry', de: 'Jostabeere', fr: 'Caseille', es: 'Jostaberry' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, matige voeding', en: 'Potassium-rich, moderate nutrition', de: 'Kaliumreich, mäßige Düngung', fr: 'Riche en potassium, nutrition modérée', es: 'Rico en potasio, nutrición moderada' },
+            tips: { nl: 'Kruising van zwarte bes en kruisbes', en: 'Cross between blackcurrant and gooseberry', de: 'Kreuzung aus Schwarzer Johannisbeere und Stachelbeere', fr: 'Croisement entre cassis et groseille à maquereau', es: 'Cruce entre grosella negra y grosella espinosa' }
+        }
+    },
+    'Ananaskers': {
+        displayName: { nl: 'Ananaskers', en: 'Cape Gooseberry', de: 'Kapstachelbeere', fr: 'Physalis', es: 'Uchuva' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosforrijk, goed gedraineerde grond', en: 'Phosphorus-rich, well-drained soil', de: 'Phosphorreich, gut durchlässiger Boden', fr: 'Riche en phosphore, sol bien drainé', es: 'Rico en fósforo, suelo bien drenado' },
+            tips: { nl: 'Bescherm tegen wind, potgeschikt', en: 'Protect from wind, suitable for pots', de: 'Vor Wind schützen, topfgeeignet', fr: 'Protéger du vent, adapté aux pots', es: 'Proteger del viento, adecuado para macetas' }
+        }
+    },
+    'Rabarber': {
+        displayName: { nl: 'Rabarber', en: 'Rhubarb', de: 'Rhabarber', fr: 'Rhubarbe', es: 'Ruibarbo' },
+        schedule: { targetHarvestWeek: 28, hasFruiting: false },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Niet te veel oogsten per keer', en: 'Don\'t harvest too much at once', de: 'Nicht zu viel auf einmal ernten', fr: 'Ne pas trop récolter à la fois', es: 'No cosechar demasiado de una vez' }
+        }
+    },
+    'Honingbes': {
+        displayName: { nl: 'Honingbes', en: 'Honeyberry', de: 'Honigbeere', fr: 'Baie de miel', es: 'Madreselva azul' },
+        schedule: { targetHarvestWeek: 30, hasFruiting: true, fruitingStartWeek: 18 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Voorjaar/zomer', en: 'Spring/summer', de: 'Frühling/Sommer', fr: 'Printemps/été', es: 'Primavera/verano' },
+            nutrition: { nl: 'Vitamine C, zure grond', en: 'Vitamin C, acidic soil', de: 'Vitamin C, saurer Boden', fr: 'Vitamine C, sol acide', es: 'Vitamina C, suelo ácido' },
+            tips: { nl: 'Vroege bloei, bestuiving cruciaal', en: 'Early flowering, pollination is crucial', de: 'Frühe Blüte, Bestäubung entscheidend', fr: 'Floraison précoce, pollinisation cruciale', es: 'Floración temprana, la polinización es crucial' }
+        }
+    },
+    'Japanse wijnbes': {
+        displayName: { nl: 'Japanse wijnbes', en: 'Japanese Wineberry', de: 'Japanische Weinbeere', fr: 'Ronce du Japon', es: 'Zarzamora japonesa' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, matige voeding', en: 'Potassium-rich, moderate nutrition', de: 'Kaliumreich, mäßige Düngung', fr: 'Riche en potassium, nutrition modérée', es: 'Rico en potasio, nutrición moderada' },
+            tips: { nl: 'Decoratief, plakkerige stengels', en: 'Decorative, sticky stems', de: 'Dekorativ, klebrige Stängel', fr: 'Décoratif, tiges collantes', es: 'Decorativo, tallos pegajosos' }
+        }
+    },
+    'Mispel': {
+        displayName: { nl: 'Mispel', en: 'Medlar', de: 'Mispel', fr: 'Nèfle', es: 'Níspero' },
+        schedule: { targetHarvestWeek: 48, hasFruiting: true, fruitingStartWeek: 36 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst/winter', en: 'Autumn/winter', de: 'Herbst/Winter', fr: 'Automne/hiver', es: 'Otoño/invierno' },
+            nutrition: { nl: 'Fosforrijk, kalkrijke bodem', en: 'Phosphorus-rich, chalky soil', de: 'Phosphorreich, kalkreicher Boden', fr: 'Riche en phosphore, sol calcaire', es: 'Rico en fósforo, suelo calcáreo' },
+            tips: { nl: 'Oogst na vorst voor smaak', en: 'Harvest after frost for flavor', de: 'Nach Frost für Geschmack ernten', fr: 'Récolter après le gel pour la saveur', es: 'Cosechar después de las heladas para obtener sabor' }
+        }
+    },
+    'Kweepeer': {
+        displayName: { nl: 'Kweepeer', en: 'Quince', de: 'Quitte', fr: 'Coing', es: 'Membrillo' },
+        schedule: { targetHarvestWeek: 46, hasFruiting: true, fruitingStartWeek: 34 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Pectinerijk, humusrijke grond', en: 'Pectin-rich, humus-rich soil', de: 'Pektinreich, humusreicher Boden', fr: 'Riche en pectine, sol riche en humus', es: 'Rico en pectina, suelo rico en humus' },
+            tips: { nl: 'Goed voor gelei, niet rauw eetbaar', en: 'Good for jelly, not edible raw', de: 'Gut für Gelee, nicht roh essbar', fr: 'Bon pour la gelée, non comestible cru', es: 'Bueno para jalea, no se come crudo' }
+        }
+    },
+    'Moerbei': {
+        displayName: { nl: 'Moerbei', en: 'Mulberry', de: 'Maulbeere', fr: 'Mûre', es: 'Mora' },
+        schedule: { targetHarvestWeek: 40, hasFruiting: true, fruitingStartWeek: 28 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, veel compost', en: 'Potassium-rich, lots of compost', de: 'Kaliumreich, viel Kompost', fr: 'Riche en potassium, beaucoup de compost', es: 'Rico en potasio, mucho compost' },
+            tips: { nl: 'Zwarte moerbei heeft beste smaak', en: 'Black mulberry has the best taste', de: 'Schwarze Maulbeere hat besten Geschmack', fr: 'La mûre noire a le meilleur goût', es: 'La morera negra tiene el mejor sabor' }
+        }
+    },
+    'Aronia bes': {
+        displayName: { nl: 'Aronia bes', en: 'Aronia Berry', de: 'Aroniabeere', fr: 'Aronia', es: 'Aronia' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Superfood, rijk aan antioxidanten', en: 'Superfood, rich in antioxidants', de: 'Superfood, reich an Antioxidantien', fr: 'Superaliment, riche en antioxydants', es: 'Superalimento, rico en antioxidantes' },
+            tips: { nl: 'Goed voor haag, decoratief blad', en: 'Good for a hedge, decorative leaves', de: 'Gut für Hecke, dekoratives Blatt', fr: 'Bon pour une haie, feuilles décoratives', es: 'Bueno para setos, hojas decorativas' }
+        }
+    },
+    'Zwarte bes': {
+        displayName: { nl: 'Zwarte bes', en: 'Blackcurrant', de: 'Schwarze Johannisbeere', fr: 'Cassis', es: 'Grosella negra' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Kaliumrijk, matige voeding', en: 'Potassium-rich, moderate nutrition', de: 'Kaliumreich, mäßige Düngung', fr: 'Riche en potassium, nutrition modérée', es: 'Rico en potasio, nutrición moderada' },
+            tips: { nl: 'Sterk aroma, goed voor jam', en: 'Strong aroma, good for jam', de: 'Starkes Aroma, gut für Marmelade', fr: 'Arôme fort, bon pour la confiture', es: 'Aroma fuerte, bueno para mermelada' }
+        }
+    },
+    'Tamarillo': {
+        displayName: { nl: 'Tamarillo', en: 'Tamarillo', de: 'Tamarillo', fr: 'Tamarillo', es: 'Tamarillo' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Fosforrijk, tropisch', en: 'Phosphorus-rich, tropical', de: 'Phosphorreich, tropisch', fr: 'Riche en phosphore, tropical', es: 'Rico en fósforo, tropical' },
+            tips: { nl: 'Kasplant, boomtomaat vibe', en: 'Greenhouse plant, tree tomato vibe', de: 'Gewächshauspflanze, Baumtomaten-Vibe', fr: 'Plante de serre, ambiance de tomate en arbre', es: 'Planta de invernadero, ambiente de tomate de árbol' }
+        }
+    },
+    'Passievrucht': {
+        displayName: { nl: 'Passievrucht', en: 'Passion Fruit', de: 'Passionsfrucht', fr: 'Fruit de la passion', es: 'Maracuyá' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Klimplant, kas aanbevolen', en: 'Climbing plant, greenhouse recommended', de: 'Kletterpflanze, Gewächshaus empfohlen', fr: 'Plante grimpante, serre recommandée', es: 'Planta trepadora, se recomienda invernadero' }
+        }
+    },
+    'Papaja': {
+        displayName: { nl: 'Papaja', en: 'Papaya', de: 'Papaya', fr: 'Papaye', es: 'Papaya' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Tropisch, stikstofrijk', en: 'Tropical, nitrogen-rich', de: 'Tropisch, stickstoffreich', fr: 'Tropical, riche en azote', es: 'Tropical, rico en nitrógeno' },
+            tips: { nl: 'Moeilijk buiten, kas of binnen', en: 'Difficult outdoors, greenhouse or indoors', de: 'Schwierig im Freien, Gewächshaus oder drinnen', fr: 'Difficile à l\'extérieur, serre ou intérieur', es: 'Difícil en exterior, invernadero o interior' }
+        }
+    },
+    'Ananas': {
+        displayName: { nl: 'Ananas', en: 'Pineapple', de: 'Ananas', fr: 'Ananas', es: 'Piña' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Fosforrijk, goed gedraineerde grond', en: 'Phosphorus-rich, well-drained soil', de: 'Phosphorreich, gut durchlässiger Boden', fr: 'Riche en phosphore, sol bien drainé', es: 'Rico en fósforo, suelo bien drenado' },
+            tips: { nl: 'Potcultuur, langzaam groeiend', en: 'Container growing, slow growing', de: 'Topfkultur, langsam wachsend', fr: 'Culture en pot, croissance lente', es: 'Cultivo en maceta, crecimiento lento' }
+        }
+    },
+    'Avocado': {
+        displayName: { nl: 'Avocado', en: 'Avocado', de: 'Avocado', fr: 'Avocat', es: 'Aguacate' },
+        schedule: { targetHarvestWeek: 46, hasFruiting: true, fruitingStartWeek: 34 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kaliumrijk, humusrijke grond', en: 'Potassium-rich, humus-rich soil', de: 'Kaliumreich, humusreicher Boden', fr: 'Riche en potassium, sol riche en humus', es: 'Rico en potasio, suelo rico en humus' },
+            tips: { nl: 'Kamerplant, traag vruchtend', en: 'Houseplant, slow to fruit', de: 'Zimmerpflanze, trägt langsam Früchte', fr: 'Plante d\'intérieur, lente à fructifier', es: 'Planta de interior, lenta para dar fruto' }
+        }
+    },
+    'Olijf': {
+        displayName: { nl: 'Olijf', en: 'Olive', de: 'Olive', fr: 'Olive', es: 'Oliva' },
+        schedule: { targetHarvestWeek: 48, hasFruiting: true, fruitingStartWeek: 36 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kalkrijk, droge grond', en: 'Chalky, dry soil', de: 'Kalkreich, trockener Boden', fr: 'Sol calcaire, sec', es: 'Suelo calcáreo, seco' },
+            tips: { nl: 'Potcultuur, overwinteren binnen', en: 'Container growing, overwinter indoors', de: 'Topfkultur, drinnen überwintern', fr: 'Culture en pot, hiverner à l\'intérieur', es: 'Cultivo en maceta, invernar en interior' }
+        }
+    },
+    'Kaki': {
+        displayName: { nl: 'Kaki', en: 'Persimmon', de: 'Kaki', fr: 'Kaki', es: 'Caqui' },
+        schedule: { targetHarvestWeek: 46, hasFruiting: true, fruitingStartWeek: 34 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kaliumrijk, veel compost', en: 'Potassium-rich, lots of compost', de: 'Kaliumreich, viel Kompost', fr: 'Riche en potassium, beaucoup de compost', es: 'Rico en potasio, mucho compost' },
+            tips: { nl: 'Zoet na rijping, kas aanbevolen', en: 'Sweet after ripening, greenhouse recommended', de: 'Süß nach Reifung, Gewächshaus empfohlen', fr: 'Doux après maturation, serre recommandée', es: 'Dulce después de madurar, se recomienda invernadero' }
+        }
+    },
+    'Loquat': {
+        displayName: { nl: 'Loquat', en: 'Loquat', de: 'Loquat', fr: 'Nèfle du Japon', es: 'Níspero japonés' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Fosforrijk, tropisch', en: 'Phosphorus-rich, tropical', de: 'Phosphorreich, tropisch', fr: 'Riche en phosphore, tropical', es: 'Rico en fósforo, tropical' },
+            tips: { nl: 'Japanse mispel, kas of pot', en: 'Japanese medlar, greenhouse or pot', de: 'Japanische Mispel, Gewächshaus oder Topf', fr: 'Néflier du Japon, serre ou pot', es: 'Níspero japonés, invernadero o maceta' }
+        }
+    },
+    'Banaan': {
+        displayName: { nl: 'Banaan', en: 'Banana', de: 'Banane', fr: 'Banane', es: 'Plátano' },
+        schedule: { targetHarvestWeek: 46, hasFruiting: true, fruitingStartWeek: 34 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kaliumrijk, tropisch', en: 'Potassium-rich, tropical', de: 'Kaliumreich, tropisch', fr: 'Riche en potassium, tropical', es: 'Rico en potasio, tropical' },
+            tips: { nl: 'Dwergvariëteiten voor binnen', en: 'Dwarf varieties for indoors', de: 'Zwergsorten für drinnen', fr: 'Variétés naines pour l\'intérieur', es: 'Variedades enanas para interior' }
+        }
+    },
+    'Cactusvijg': {
+        displayName: { nl: 'Cactusvijg', en: 'Prickly Pear', de: 'Kaktusfeige', fr: 'Figue de Barbarie', es: 'Higo chumbo' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Zomer/herfst', en: 'Summer/autumn', de: 'Sommer/Herbst', fr: 'Été/automne', es: 'Verano/otoño' },
+            nutrition: { nl: 'Droge grond, fosforrijk', en: 'Dry soil, phosphorus-rich', de: 'Trockener Boden, phosphorreich', fr: 'Sol sec, riche en phosphore', es: 'Suelo seco, rico en fósforo' },
+            tips: { nl: 'Handschoenen bij oogst aanbevolen', en: 'Gloves recommended for harvesting', de: 'Handschuhe bei der Ernte empfohlen', fr: 'Gants recommandés pour la récolte', es: 'Se recomiendan guantes para la cosecha' }
+        }
+    },
+    'Cranberry': {
+        displayName: { nl: 'Cranberry', en: 'Cranberry', de: 'Cranberry', fr: 'Canneberge', es: 'Arándano rojo' },
+        schedule: { targetHarvestWeek: 42, hasFruiting: true, fruitingStartWeek: 30 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Zure grond, vitamine C', en: 'Acidic soil, vitamin C', de: 'Saurer Boden, Vitamin C', fr: 'Sol acide, vitamine C', es: 'Suelo ácido, vitamina C' },
+            tips: { nl: 'Potcultuur met turf mogelijk', en: 'Pot culture with peat is possible', de: 'Topfkultur mit Torf möglich', fr: 'Culture en pot avec de la tourbe possible', es: 'Es posible el cultivo en maceta con turba' }
+        }
+    },
+    'Sanddorn': {
+        displayName: { nl: 'Sanddorn', en: 'Sea Buckthorn', de: 'Sanddorn', fr: 'Argousier', es: 'Espino amarillo' },
+        schedule: { targetHarvestWeek: 44, hasFruiting: true, fruitingStartWeek: 32 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Vitamine C, kalkrijke bodem', en: 'Vitamin C, chalky soil', de: 'Vitamin C, kalkreicher Boden', fr: 'Vitamine C, sol calcaire', es: 'Vitamina C, suelo calcáreo' },
+            tips: { nl: 'Goed voor haag, stekelig', en: 'Good for a hedge, prickly', de: 'Gut für Hecke, stachelig', fr: 'Bon pour une haie, épineux', es: 'Bueno para setos, espinoso' }
+        }
+    },
+    'Amandel': {
+        displayName: { nl: 'Amandel', en: 'Almond', de: 'Mandel', fr: 'Amande', es: 'Almendra' },
+        schedule: { targetHarvestWeek: 46, hasFruiting: true, fruitingStartWeek: 34 },
+        info: {
+            light: { nl: 'Volle zon', en: 'Full sun', de: 'Volle Sonne', fr: 'Plein soleil', es: 'Pleno sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kalkrijk, droge grond', en: 'Chalky, dry soil', de: 'Kalkreich, trockener Boden', fr: 'Sol calcaire, sec', es: 'Suelo calcáreo, seco' },
+            tips: { nl: 'Moeilijk in koud klimaat', en: 'Difficult in cold climates', de: 'Schwierig in kaltem Klima', fr: 'Difficile dans les climats froids', es: 'Difícil en climas fríos' }
+        }
+    },
+    'Hazelnoot': {
+        displayName: { nl: 'Hazelnoot', en: 'Hazelnut', de: 'Haselnuss', fr: 'Noisette', es: 'Avellana' },
+        schedule: { targetHarvestWeek: 46, hasFruiting: true, fruitingStartWeek: 34 },
+        info: {
+            light: { nl: 'Zon/halfzon', en: 'Sun/part sun', de: 'Sonne/Halbsonne', fr: 'Soleil/mi-ombre', es: 'Sol/semisombra' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Fosforrijk, humusrijke grond', en: 'Phosphorus-rich, humus-rich soil', de: 'Phosphorreich, humusreicher Boden', fr: 'Riche en phosphore, sol riche en humus', es: 'Rico en fósforo, suelo rico en humus' },
+            tips: { nl: 'Kleinere struiken beschikbaar', en: 'Smaller shrubs available', de: 'Kleinere Sträucher verfügbar', fr: 'Arbustes plus petits disponibles', es: 'Arbustos más pequeños disponibles' }
+        }
+    },
+    'Walnoot': {
+        displayName: { nl: 'Walnoot', en: 'Walnut', de: 'Walnuss', fr: 'Noix', es: 'Nuez' },
+        schedule: { targetHarvestWeek: 48, hasFruiting: true, fruitingStartWeek: 36 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Kaliumrijk, veel ruimte nodig', en: 'Potassium-rich, needs lots of space', de: 'Kaliumreich, braucht viel Platz', fr: 'Riche en potassium, a besoin de beaucoup d\'espace', es: 'Rico en potasio, necesita mucho espacio' },
+            tips: { nl: 'Langzame groei, grote boom', en: 'Slow growth, large tree', de: 'Langsames Wachstum, großer Baum', fr: 'Croissance lente, grand arbre', es: 'Crecimiento lento, árbol grande' }
+        }
+    },
+    'Kastanje': {
+        displayName: { nl: 'Kastanje', en: 'Chestnut', de: 'Kastanie', fr: 'Châtaigne', es: 'Castaña' },
+        schedule: { targetHarvestWeek: 48, hasFruiting: true, fruitingStartWeek: 36 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Herfst', en: 'Autumn', de: 'Herbst', fr: 'Automne', es: 'Otoño' },
+            nutrition: { nl: 'Koolhydraten, kalkrijke bodem', en: 'Carbohydrates, chalky soil', de: 'Kohlenhydrate, kalkreicher Boden', fr: 'Glucides, sol calcaire', es: 'Carbohidratos, suelo calcáreo' },
+            tips: { nl: 'Tamme kastanje, niet paardekastanje', en: 'Sweet chestnut, not horse chestnut', de: 'Esskastanie, nicht Rosskastanie', fr: 'Châtaigne, pas marron d\'Inde', es: 'Castaña dulce, no castaña de Indias' }
+        }
+    },
+    'Goudbes': {
+        displayName: { nl: 'Goudbes', en: 'Golden Berry', de: 'Goldbeere', fr: 'Baie dorée', es: 'Baya dorada' },
+        schedule: { targetHarvestWeek: 38, hasFruiting: true, fruitingStartWeek: 26 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Tropisch, fosforrijk', en: 'Tropical, phosphorus-rich', de: 'Tropisch, phosphorreich', fr: 'Tropical, riche en phosphore', es: 'Tropical, rico en fósforo' },
+            tips: { nl: 'Alternatief voor ananaskers', en: 'Alternative to cape gooseberry', de: 'Alternative zur Kapstachelbeere', fr: 'Alternative au physalis', es: 'Alternativa a la uchuva' }
+        }
+    },
+    'Zure kers': {
+        displayName: { nl: 'Zure kers', en: 'Sour Cherry', de: 'Sauerkirsche', fr: 'Cerise acide', es: 'Cereza ácida' },
+        schedule: { targetHarvestWeek: 36, hasFruiting: true, fruitingStartWeek: 24 },
+        info: {
+            light: { nl: 'Zon', en: 'Sun', de: 'Sonne', fr: 'Soleil', es: 'Sol' },
+            cycle: { nl: 'Zomer', en: 'Summer', de: 'Sommer', fr: 'Été', es: 'Verano' },
+            nutrition: { nl: 'Fosforrijk, humusrijke grond', en: 'Phosphorus-rich, humus-rich soil', de: 'Phosphorreich, humusreicher Boden', fr: 'Riche en phosphore, sol riche en humus', es: 'Rico en fósforo, suelo rico en humus' },
+            tips: { nl: 'Ideaal voor jam en gebak', en: 'Ideal for jam and pastries', de: 'Ideal für Marmelade und Gebäck', fr: 'Idéal pour la confiture et les pâtisseries', es: 'Ideal para mermelada y repostería' }
+        }
     }
 };
+
 
 /* ==== State & utils ==== */
 let currentLang = localStorage.getItem('appLang') || 'nl';
@@ -662,8 +1627,8 @@ function render() {
     
     grid.innerHTML = active.map(p => {
         const ageDays = Math.max(0, daysBetween(p.planted_at, new Date())),
-            w = Math.floor(ageDays / 7),
-            d = ageDays % 7;
+              w = Math.floor(ageDays / 7),
+              d = ageDays % 7;
         const plantInfo = PLANT_DATA[p.plantType]?.info;
 
         return `<div class="card ${p.isCollapsed ? 'is-collapsed' : ''}" id="card_${p.id}">
@@ -680,7 +1645,7 @@ function render() {
                 <div class="row-info">
                     <label><span class="muted">${t('plantedOn')}</span> <input type="date" value="${p.planted_at}" onchange="updatePlant('${p.id}', {planted_at: this.value})"/></label>
                     <div style="display:flex; gap: 8px;">
-                        ${plantInfo?.light ? `<span class="pill">💡 ${plantInfo.light}</span>` : ''}
+                        ${plantInfo?.light?.[currentLang] || plantInfo?.light?.nl ? `<span class="pill">💡 ${plantInfo.light[currentLang] || plantInfo.light.nl}</span>` : ''}
                         <span class="pill"><b>${t('age')}</b> ${w} ${t('weeks')} ${d} ${t('days')}</span>
                     </div>
                     <div class="action-buttons">
@@ -765,14 +1730,18 @@ function renderTimeline(p) {
 
 function renderCareInfo(p) {
     const info = PLANT_DATA[p.plantType]?.info;
-    if (!info) return `<p class="muted">${t('Select a type for info')}</p>`;
+    if (!info || !info.light) return `<p class="muted">${t('selectTypeForInfo')}</p>`;
+
+    const getInfoText = (prop) => (prop?.[currentLang] || prop?.nl || 'N/A');
+
     return `<div class="care-info">
-        <div><h4>${t('light')}</h4><p>💡 ${info.light || 'N/A'}</p></div>
-        <div><h4>${t('cycle')}</h4><p>🔄 ${info.cycle || 'N/A'}</p></div>
-        <div><h4>${t('nutrition')}</h4><p>🥦 ${info.nutrition || 'N/A'}</p></div>
-        ${info.tips ? `<div><h4>${t('extraInfo')}</h4><p>✨ ${info.tips}</p></div>` : ''}
+        <div><h4>${t('light')}</h4><p>💡 ${getInfoText(info.light)}</p></div>
+        <div><h4>${t('cycle')}</h4><p>🔄 ${getInfoText(info.cycle)}</p></div>
+        <div><h4>${t('nutrition')}</h4><p>🥦 ${getInfoText(info.nutrition)}</p></div>
+        ${info.tips && (info.tips.nl || info.tips) ? `<div><h4>${t('extraInfo')}</h4><p>✨ ${getInfoText(info.tips)}</p></div>` : ''}
     </div>`;
 }
+
 
 function renderNotes(p) { return `<textarea style="width:100%;min-height:120px;" onchange="updatePlant('${p.id}', {notes: this.value})" placeholder="${t('notesPlaceholder')}">${p.notes || ''}</textarea>`; }
 
@@ -816,7 +1785,7 @@ async function buildReportJPGBlob() {
         img.crossOrigin = 'anonymous';
         img.onload = () => res(img);
         img.onerror = () => res(null);
-        img.src = 'kweekmaatjelogo.png';
+        img.src = 'homegrowcoachlogo.png';
     });
     
     let tx = HPad;
@@ -950,4 +1919,3 @@ window.shareReportJPG = shareReportJPG;
 </script>
 </body>
 </html>
-
