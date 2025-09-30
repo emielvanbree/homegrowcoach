@@ -34,7 +34,7 @@ button,.btn,.tab.active{appearance:none;border:1px solid var(--line);padding:8px
 .btn-icon:hover{background:var(--pill)}
 .btn-icon svg, .btn-icon .material-icons{width:20px;height:20px;fill:var(--main);color:var(--main)}
 .dark button,.dark .btn,.dark .tab{background:var(--card);border-color:var(--line);color:var(--main)}
-.tab{background:transparent;border-color:transparent}
+.tab{background:transparent;border-color:transparent;flex:1}
 .tab.active{background:#fff;border-color:var(--line);box-shadow:0 1px 0 rgba(0,0,0,.04);color:var(--fg);font-weight:600}
 .dark .tab.active{background:#3a453e;border-color:#556058;color:var(--fg)}
 #btnAdd,#btnAdd2{background:var(--cta);border-color:var(--cta);color:#fff;font-weight:600}
@@ -211,6 +211,7 @@ const TRANSLATIONS = {
         timeline: "Tijdlijn",
         care: "Verzorging",
         notes: "Notities",
+        reminders: "Herinneringen",
         date: "Datum:",
         noteOptional: "Opmerking (optioneel)",
         uploadPhoto: "Upload foto",
@@ -247,7 +248,10 @@ const TRANSLATIONS = {
         close: "Sluiten",
         shareFallback: "Delen wordt niet ondersteund door je browser. De afbeelding wordt in plaats daarvan gedownload.",
         reportIntro: "Kijk eens wat een mooie oogst ik aan het kweken ben! 🌱🥕",
-        selectTypeForInfo: "Selecteer een type voor info."
+        selectTypeForInfo: "Selecteer een type voor info.",
+        waterInterval: "Water herinnering (interval in dagen)",
+        feedInterval: "Voeding herinnering (interval in dagen)",
+        intervalHint: "Zet op 0 om een herinnering uit te schakelen."
     },
     en: {
         appName: "HomeGrowCoach",
@@ -267,6 +271,7 @@ const TRANSLATIONS = {
         timeline: "Timeline",
         care: "Care",
         notes: "Notes",
+        reminders: "Reminders",
         date: "Date:",
         noteOptional: "Note (optional)",
         uploadPhoto: "Upload Photo",
@@ -303,7 +308,10 @@ const TRANSLATIONS = {
         close: "Close",
         shareFallback: "Sharing is not supported by your browser. The image will be downloaded instead.",
         reportIntro: "Look at the beautiful harvest I'm growing! 🌱🥕",
-        selectTypeForInfo: "Select a type for info."
+        selectTypeForInfo: "Select a type for info.",
+        waterInterval: "Water reminder (interval in days)",
+        feedInterval: "Nutrition reminder (interval in days)",
+        intervalHint: "Set to 0 to disable a reminder."
     },
     de: {
         appName: "HeimAnbauCoach",
@@ -323,6 +331,7 @@ const TRANSLATIONS = {
         timeline: "Zeitachse",
         care: "Pflege",
         notes: "Notizen",
+        reminders: "Erinnerungen",
         date: "Datum:",
         noteOptional: "Notiz (optional)",
         uploadPhoto: "Foto hochladen",
@@ -359,7 +368,10 @@ const TRANSLATIONS = {
         close: "Schließen",
         shareFallback: "Teilen wird von deinem Browser nicht unterstützt. Das Bild wird stattdessen heruntergeladen.",
         reportIntro: "Schau mal, was für eine schöne Ernte ich anbaue! 🌱🥕",
-        selectTypeForInfo: "Wähle eine Art für Infos."
+        selectTypeForInfo: "Wähle eine Art für Infos.",
+        waterInterval: "Bewässerungserinnerung (Intervall in Tagen)",
+        feedInterval: "Düngungserinnerung (Intervall in Tagen)",
+        intervalHint: "Auf 0 setzen, um eine Erinnerung zu deaktivieren."
     },
     fr: {
         appName: "CoachPotagerMaison",
@@ -379,6 +391,7 @@ const TRANSLATIONS = {
         timeline: "Chronologie",
         care: "Soins",
         notes: "Notes",
+        reminders: "Rappels",
         date: "Date:",
         noteOptional: "Note (optionnel)",
         uploadPhoto: "Télécharger photo",
@@ -415,7 +428,10 @@ const TRANSLATIONS = {
         close: "Fermer",
         shareFallback: "Le partage n'est pas pris en charge par votre navigateur. L'image sera téléchargée à la place.",
         reportIntro: "Regardez la belle récolte que je cultive ! 🌱🥕",
-        selectTypeForInfo: "Sélectionnez un type pour les infos."
+        selectTypeForInfo: "Sélectionnez un type pour les infos.",
+        waterInterval: "Rappel d'arrosage (intervalle en jours)",
+        feedInterval: "Rappel de nutrition (intervalle en jours)",
+        intervalHint: "Mettre à 0 pour désactiver un rappel."
     },
     es: {
         appName: "CoachHuertoEnCasa",
@@ -435,6 +451,7 @@ const TRANSLATIONS = {
         timeline: "Cronología",
         care: "Cuidados",
         notes: "Notas",
+        reminders: "Recordatorios",
         date: "Fecha:",
         noteOptional: "Nota (opcional)",
         uploadPhoto: "Subir foto",
@@ -471,7 +488,10 @@ const TRANSLATIONS = {
         close: "Cerrar",
         shareFallback: "Tu navegador no admite la función de compartir. En su lugar, se descargará la imagen.",
         reportIntro: "¡Mira qué hermosa cosecha estoy cultivando! 🌱🥕",
-        selectTypeForInfo: "Selecciona un tipo para ver la información."
+        selectTypeForInfo: "Selecciona un tipo para ver la información.",
+        waterInterval: "Recordatorio de riego (intervalo en días)",
+        feedInterval: "Recordatorio de nutrición (intervalo en días)",
+        intervalHint: "Establecer en 0 para desactivar un recordatorio."
     }
 };
 
@@ -1500,7 +1520,22 @@ function t(k) { return TRANSLATIONS[currentLang]?.[k] || `[${k}]`; }
 /* ==== Storage ==== */
 const LS_KEY = 'homegrow_coach_v1';
 let state = { plants: [], viewArchived: false };
-function loadState() { try { const raw = localStorage.getItem(LS_KEY); state = raw ? JSON.parse(raw) : { plants: [], viewArchived: false }; (state.plants || []).forEach(p => { p.acknowledgedActions = p.acknowledgedActions || []; if (typeof p.isCollapsed === 'undefined') p.isCollapsed = false; if (typeof p.archived === 'undefined') p.archived = false; }); } catch (e) { state = { plants: [], viewArchived: false }; } }
+function loadState() { 
+    try { 
+        const raw = localStorage.getItem(LS_KEY); 
+        state = raw ? JSON.parse(raw) : { plants: [], viewArchived: false }; 
+        (state.plants || []).forEach(p => { 
+            p.acknowledgedActions = p.acknowledgedActions || []; 
+            if (typeof p.isCollapsed === 'undefined') p.isCollapsed = false; 
+            if (typeof p.archived === 'undefined') p.archived = false;
+            if (!p.reminderSettings) {
+                p.reminderSettings = { water: 2, feed: 7 };
+            }
+        }); 
+    } catch (e) { 
+        state = { plants: [], viewArchived: false }; 
+    } 
+}
 function saveState() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) { } }
 loadState();
 
@@ -1515,20 +1550,23 @@ function getPendingActions(plant, dateToCheck) {
     const plantData = PLANT_DATA[plant.plantType];
     if (!plantData) return [];
 
+    const waterInterval = plant.reminderSettings?.water || 2;
+    const feedInterval = plant.reminderSettings?.feed || 7;
+
     for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
         const age = daysBetween(start, d);
         const arr = [];
         
-        // General reminder to check water every 2 days
-        if (age > 0 && age % 2 === 0) {
+        // General reminder to check water every X days
+        if (waterInterval > 0 && age > 0 && age % waterInterval === 0) {
             arr.push({ type: 'water', label: t('checkWater'), date: new Date(d) });
         }
-        // General reminder to check nutrition every 7 days
-        if (age > 6 && age % 7 === 0) {
+        // General reminder to check nutrition every Y days
+        if (feedInterval > 0 && age > 6 && age % feedInterval === 0) {
             arr.push({ type: 'feed', label: t('checkFeed'), date: new Date(d) });
         }
         // Harvest reminder
-        if (age === plant.schedule.targetHarvestWeek * 7) {
+        if (plant.schedule && plant.schedule.targetHarvestWeek && age === plant.schedule.targetHarvestWeek * 7) {
             arr.push({ type: 'harvest', label: t('harvest'), date: new Date(d) });
         }
         arr.forEach(a => { const id = createActionId(a.type, a.date); if (!plant.acknowledgedActions.includes(id)) out.push(a); });
@@ -1569,7 +1607,19 @@ function setDarkMode(enabled) { isDarkMode = enabled; document.body.classList.to
 function addPlant() {
     const active = state.plants.filter(p => !p.archived).length;
     if (active >= 12) { alert(t('alertMax')); return; }
-    const p = { id: uid(), name: `${t('plant')} ${active + 1}`, plantType: 'Selecteer...', planted_at: todayISO(), notes: "", photos: [], acknowledgedActions: [], isCollapsed: false, archived: false, schedule: { ...PLANT_DATA['Selecteer...'].schedule } };
+    const p = { 
+        id: uid(), 
+        name: `${t('plant')} ${active + 1}`, 
+        plantType: 'Selecteer...', 
+        planted_at: todayISO(), 
+        notes: "", 
+        photos: [], 
+        acknowledgedActions: [], 
+        isCollapsed: false, 
+        archived: false, 
+        schedule: { ...PLANT_DATA['Selecteer...'].schedule },
+        reminderSettings: { water: 2, feed: 7 }
+    };
     state.plants.unshift(p);
     saveAndRender();
 }
@@ -1583,8 +1633,21 @@ function handlePlantTypeChange(id, key) {
         updatePlant(id, { plantType: key, schedule: { ...plantData.schedule } });
     }
 }
+function updateReminderSetting(plantId, type, value) {
+    const p = getPlant(plantId);
+    if (p) {
+        if (!p.reminderSettings) {
+            p.reminderSettings = { water: 2, feed: 7 };
+        }
+        const val = parseInt(value, 10);
+        if (!isNaN(val) && val >= 0) {
+            p.reminderSettings[type] = val;
+            saveAndRender();
+        }
+    }
+}
 function saveAndRender() { saveState(); render(); }
-window.addPlant = addPlant; window.updatePlant = updatePlant; window.deletePlant = deletePlant; window.toggleCollapse = toggleCollapse; window.handlePlantTypeChange = handlePlantTypeChange;
+window.addPlant = addPlant; window.updatePlant = updatePlant; window.deletePlant = deletePlant; window.toggleCollapse = toggleCollapse; window.handlePlantTypeChange = handlePlantTypeChange; window.updateReminderSetting = updateReminderSetting;
 
 /* ==== Progress ==== */
 function createProgressBarHTML(plant) {
@@ -1645,7 +1708,6 @@ function render() {
                 <div class="row-info">
                     <label><span class="muted">${t('plantedOn')}</span> <input type="date" value="${p.planted_at}" onchange="updatePlant('${p.id}', {planted_at: this.value})"/></label>
                     <div style="display:flex; gap: 8px;">
-                        ${plantInfo?.light?.[currentLang] || plantInfo?.light?.nl ? `<span class="pill">💡 ${plantInfo.light[currentLang] || plantInfo.light.nl}</span>` : ''}
                         <span class="pill"><b>${t('age')}</b> ${w} ${t('weeks')} ${d} ${t('days')}</span>
                     </div>
                     <div class="action-buttons">
@@ -1661,6 +1723,7 @@ function render() {
                     <button class="tab active" data-tab="timeline" onclick="switchTab(this, '${p.id}')">${t('timeline')}</button>
                     <button class="tab" data-tab="care" onclick="switchTab(this, '${p.id}')">${t('care')}</button>
                     <button class="tab" data-tab="notes" onclick="switchTab(this, '${p.id}')">${t('notes')}</button>
+                    <button class="tab" data-tab="reminders" onclick="switchTab(this, '${p.id}')">${t('reminders')}</button>
                 </div>
                 <div id="content_${p.id}" style="margin-top:12px;"></div>
             </div>
@@ -1700,6 +1763,7 @@ function switchTab(el, id) {
     if (tab === 'timeline') c.innerHTML = renderTimeline(p);
     if (tab === 'care') c.innerHTML = renderCareInfo(p);
     if (tab === 'notes') c.innerHTML = renderNotes(p);
+    if (tab === 'reminders') c.innerHTML = renderReminders(p);
 }
 window.switchTab = switchTab;
 
@@ -1742,8 +1806,24 @@ function renderCareInfo(p) {
     </div>`;
 }
 
+function renderNotes(p) { 
+    return `<textarea style="width:100%;min-height:120px;" onchange="updatePlant('${p.id}', {notes: this.value})" placeholder="${t('notesPlaceholder')}">${p.notes || ''}</textarea>`; 
+}
 
-function renderNotes(p) { return `<textarea style="width:100%;min-height:120px;" onchange="updatePlant('${p.id}', {notes: this.value})" placeholder="${t('notesPlaceholder')}">${p.notes || ''}</textarea>`; }
+function renderReminders(p) {
+    const settings = p.reminderSettings || { water: 2, feed: 7 };
+    return `
+        <div class="care-info">
+            <label for="water_interval_${p.id}" style="display:block; margin-bottom: 8px; font-weight: 600;">${t('waterInterval')}</label>
+            <input type="number" id="water_interval_${p.id}" value="${settings.water}" min="0" onchange="updateReminderSetting('${p.id}', 'water', this.value)" style="width: 80px; margin-bottom: 16px;">
+            
+            <label for="feed_interval_${p.id}" style="display:block; margin-bottom: 8px; font-weight: 600;">${t('feedInterval')}</label>
+            <input type="number" id="feed_interval_${p.id}" value="${settings.feed}" min="0" onchange="updateReminderSetting('${p.id}', 'feed', this.value)" style="width: 80px;">
+            
+            <p class="hint" style="margin-top: 16px;">${t('intervalHint')}</p>
+        </div>
+    `;
+}
 
 function addPhoto(id) {
     const fi = document.getElementById(`photo_file_${id}`), date = document.getElementById(`photo_date_${id}`).value, note = document.getElementById(`photo_note_${id}`).value;
